@@ -15,6 +15,6 @@ export class Bill {
         if (!(participant instanceof Participant)) {
             throw new Error('participant has to be of type Participant');
         }
-        this.participants.push(this.participant);
+        this.participants.push(participant);
     }
 }

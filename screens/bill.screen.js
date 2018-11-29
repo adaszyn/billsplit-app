@@ -1,25 +1,39 @@
-
 import React from "react";
-import {
-  createMaterialTopTabNavigator,
-  createAppContainer
-} from "react-navigation";
+import { createMaterialTopTabNavigator } from "react-navigation";
+import { Colors } from "../config/theme.config";
+import { PaymentsScreen } from "./payments.screen";
+import { ExpensesScreen } from "./expenses.screen";
+import { Bill } from "../models/bill";
 
-import { PaymentsScreen } from './payments.screen';
-import { ExpensesScreen } from './expenses.screen'
-
-const TabNavigator = createMaterialTopTabNavigator({
-  Expenses: ExpensesScreen,
-  Payments: PaymentsScreen
-});
-const Tabs = createAppContainer(TabNavigator);
-
-export class BillScreen extends React.Component {
-  static navigationOptions = {
-    title: "Your bill"
-  };
-  render() {
-    const { navigate } = this.props.navigation;
-    return <Tabs />;
+export const BillScreen = createMaterialTopTabNavigator(
+  {
+    Expenses: ExpensesScreen,
+    Payments: PaymentsScreen
+  },
+  {
+    tabBarOptions: {
+      style: {
+        backgroundColor: "white"
+      },
+      indicatorStyle: {
+        color: "transparent",
+        backgroundColor: Colors.background
+      },
+      inactiveTintColor: Colors.grey,
+      activeTintColor: "black"
+    },
+    navigationOptions: ({ navigation }) => {
+      const bill = navigation.state.params.bill;
+      return {
+        title: bill.name,
+        headerStyle: {
+          backgroundColor: Colors.main
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      };
+    }
   }
-}
+);

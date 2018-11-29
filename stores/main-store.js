@@ -14,6 +14,9 @@ const createMockBill = () => {
     const participant2 = new Participant('Josh', '+46 111 111 111');
     bill.addParticipant(participant1);
     bill.addParticipant(participant2);
+    participant1.addExpense('Tickets', 300);
+    participant2.addExpense('Chips', 20);
+    participant2.addExpense('Beers', 120);
     return bill;
 }
 // TODO: remove from codebase when not used
@@ -27,3 +30,5 @@ export const preloadStoreFromStorage = () => {
     const store = new MainStore();
     return store;
 }
+
+export const store = createMockStore();

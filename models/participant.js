@@ -1,4 +1,5 @@
 import { generateId } from "../util/number.util";
+import { Expense } from "./expense";
 
 export class Participant {
     constructor(name, phoneNumber, id = generateId()) {
@@ -7,5 +8,8 @@ export class Participant {
         this.expenses = []
         this.phoneNumber = phoneNumber;
         this.isLocked = false;
+    }
+    addExpense(name, value) {
+        this.expenses.push(new Expense(name, value));
     }
 }

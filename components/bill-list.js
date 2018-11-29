@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { BillListComponent } from "./bill-list-item";
 import { Container, Icon, Fab } from "native-base";
+import { Colors } from "../config/theme.config";
 
 export class BillList extends React.Component {
   renderListItem = ({ item }) => {
@@ -22,7 +23,7 @@ export class BillList extends React.Component {
           active
           direction="up"
           containerStyle={{}}
-          style={{ backgroundColor: "#5067FF" }}
+          style={{ backgroundColor: Colors.main }}
           position="bottomRight"
           onPress={() => navigation.navigate('CreateBill')}
         >
