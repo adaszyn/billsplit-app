@@ -19,6 +19,12 @@ export class ListScreen extends React.Component {
   };
   render() {
     const { navigation } = this.props;
-    return <BillList bills={store.list.bills} navigation={navigation} />;
+    return (
+      <BillList
+        bills={store.list.bills}
+        navigation={navigation}
+        removeBill={bill => store.list.removeBill(bill)}
+      />
+    );
   }
 }

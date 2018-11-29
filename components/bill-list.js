@@ -1,31 +1,65 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { BillListComponent } from "./bill-list-item";
-import { Container, Icon, Fab } from "native-base";
 import { Colors } from "../config/theme.config";
+import {
+  Container,
+  Icon,
+  Fab,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Thumbnail,
+  Text,
+  Left,
+  Body,
+  Right,
+  Button
+} from "native-base";
+import { observer } from "mobx-react";
 
+@observer
 export class BillList extends React.Component {
-  renderListItem = ({ item }) => {
-      const { navigation } = this.props;
-    return <BillListComponent bill={item} onPress={() => navigation.navigate('Bill', { bill: item })} />;
+  renderListItem = item => {
+    const { navigation, removeBill } = this.props;
+    return (
+      <TouchableOpacity
+        key={item.id}
+        onPress={() => navigation.navigate("Bill", { bill: item })}
+      >
+        <ListItem thumbnail onPress={() => navigation.navigate("Bill", { bill: item })}>
+          <Body>
+            <Text>{item.name}</Text>
+            <Text note numberOfLines={1}>
+              Its time to build a difference . .
+            </Text>
+          </Body>
+          <Right>
+            <Button
+              active
+              style={{ backgroundColor: "transparent", elevation: 0 }}
+              onPress={() => removeBill(item)}
+            >
+              <Icon name="trash" style={{ color: Colors.red }} active />
+            </Button>
+          </Right>
+        </ListItem>
+      </TouchableOpacity>
+    );
   };
   render() {
     const { bills, navigation } = this.props;
     return (
       <Container>
-        <FlatList
-          data={bills}
-          style={styles.container}
-          renderItem={this.renderListItem}
-          keyExtractor={item => item.id}
-        />
+        <List>{bills.map(this.renderListItem)}</List>
         <Fab
           active
           direction="up"
           containerStyle={{}}
           style={{ backgroundColor: Colors.main }}
           position="bottomRight"
-          onPress={() => navigation.navigate('CreateBill')}
+          onPress={() => navigation.navigate("CreateBill")}
         >
           <Icon name="add" />
         </Fab>

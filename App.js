@@ -2,17 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { BillScreen } from "./screens/bill.screen";
 import { ListScreen } from "./screens/list.screen";
-import { CreateBillScreen } from './screens/create-bill.screen';
+import { CreateBillScreen } from "./screens/create-bill.screen";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-function loadFont() {
-  Expo.Font.loadAsync({
-    Roboto: require("native-base/Fonts/Roboto.ttf"),
-    Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
-  });
-}
-
-loadFont();
 const AppNavigator = createStackNavigator({
   List: {
     screen: ListScreen
@@ -21,8 +13,30 @@ const AppNavigator = createStackNavigator({
     screen: BillScreen
   },
   CreateBill: {
-      screen: CreateBillScreen
+    screen: CreateBillScreen
   }
 });
+const Navigator = createAppContainer(AppNavigator);
+class Application extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
 
-export default createAppContainer(AppNavigator);
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+    });
+    this.setState({ loading: false });
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <Expo.AppLoading />;
+    }
+    return <Navigator />;
+  }
+}
+export default Application;
