@@ -1,13 +1,25 @@
 import React from "react";
-import { StyleSheet, TouchableHighlight, Text } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Card,
+  CardItem,
+  Body,
+  Text
+} from "native-base";
 
 export class BillListComponent extends React.Component {
   render() {
     const { bill } = this.props;
     return (
-      <TouchableHighlight onPress={() => {}}>
-        <Text>{bill.name}</Text>
-      </TouchableHighlight>
+      <TouchableOpacity onPress={() => {}}>
+        <Card>
+          <CardItem>
+            <Body>
+              <Text>{bill.name}</Text>
+            </Body>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
     );
   }
 }

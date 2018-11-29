@@ -4,6 +4,14 @@ import { BillScreen } from "./screens/bill/BillScreen";
 import { ListScreen } from "./screens/list/ListScreen";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
+function loadFont() {
+  Expo.Font.loadAsync({
+    Roboto: require("native-base/Fonts/Roboto.ttf"),
+    Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+  });
+}
+
+loadFont();
 const AppNavigator = createStackNavigator({
   List: {
     screen: ListScreen
