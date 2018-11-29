@@ -1,17 +1,17 @@
 import React from "react";
 import { Button } from 'react-native';
 
-export class ListScreen extends React.Component {
+export class BillScreen extends React.Component {
     static navigationOptions = {
-      title: 'Your bills',
+      title: 'Your bill',
     };
     render() {
       const { navigate } = this.props.navigation;
       return (
         <Button
-          title="Bill"
+          title="To Lists"
           onPress={() =>
-            navigate('Bill')
+            navigate('List')
           }
         />
       );

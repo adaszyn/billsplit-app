@@ -1,19 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { HomeScreen } from "./screens/home/HomeScreen";
+import { BillScreen } from "./screens/bill/BillScreen";
 import { ListScreen } from "./screens/list/ListScreen";
-import {
-  createStackNavigator,
-  createAppContainer
-} from "react-navigation";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
 const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen
-  },
   List: {
     screen: ListScreen
   },
+  Bill: {
+    screen: BillScreen
+  }
 });
 
 export default createAppContainer(AppNavigator);
