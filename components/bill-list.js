@@ -1,14 +1,15 @@
 import React from "react";
 import { StyleSheet, FlatList } from "react-native";
 import { BillListComponent } from "./bill-list-item";
-import { Container, Header, View, Button, Icon, Fab } from "native-base";
+import { Container, Icon, Fab } from "native-base";
 
 export class BillList extends React.Component {
   renderListItem = ({ item }) => {
-    return <BillListComponent bill={item} />;
+      const { navigation } = this.props;
+    return <BillListComponent bill={item} onPress={() => navigation.navigate('Bill', { bill: item })} />;
   };
   render() {
-    const { bills } = this.props;
+    const { bills, navigation } = this.props;
     return (
       <Container>
         <FlatList
@@ -23,7 +24,7 @@ export class BillList extends React.Component {
           containerStyle={{}}
           style={{ backgroundColor: "#5067FF" }}
           position="bottomRight"
-          onPress={() => this.setState({ active: !this.state.active })}
+          onPress={() => navigation.navigate('CreateBill')}
         >
           <Icon name="add" />
         </Fab>

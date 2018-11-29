@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { BillScreen } from "./screens/bill/BillScreen";
-import { ListScreen } from "./screens/list/ListScreen";
+import { BillScreen } from "./screens/bill.screen";
+import { ListScreen } from "./screens/list.screen";
+import { CreateBillScreen } from './screens/create-bill.screen';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 function loadFont() {
@@ -18,6 +19,9 @@ const AppNavigator = createStackNavigator({
   },
   Bill: {
     screen: BillScreen
+  },
+  CreateBill: {
+      screen: CreateBillScreen
   }
 });
 

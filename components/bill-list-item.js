@@ -11,7 +11,7 @@ export class BillListComponent extends React.Component {
   render() {
     const { bill } = this.props;
     return (
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={this.props.onPress}>
         <Card>
           <CardItem>
             <Body>

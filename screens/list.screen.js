@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from 'react-native';
-import { BillList } from '../../components/bill-list';
+import { BillList } from '../components/bill-list';
 import { observer } from 'mobx-react';
-import { createMockStore } from "../../stores/main-store";
+import { createMockStore } from "../stores/main-store";
 
 const store = createMockStore();
 
@@ -12,9 +12,9 @@ export class ListScreen extends React.Component {
       title: 'BillSplit',
     };
     render() {
-      const { navigate } = this.props.navigation;
+      const { navigation } = this.props;
       return (
-        <BillList bills={store.list.bills} />
+        <BillList bills={store.list.bills} navigation={navigation} />
       );
     }
   }
