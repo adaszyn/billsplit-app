@@ -21,6 +21,12 @@ import { observer } from "mobx-react";
 
 @observer
 export class BillList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fabActive: 'true'
+    };
+  }
   renderListItem = item => {
     const { navigation, removeBill } = this.props;
     return (
@@ -54,14 +60,21 @@ export class BillList extends React.Component {
       <Container>
         <List>{bills.map(this.renderListItem)}</List>
         <Fab
-          active
+          active={this.state.fabActive}
           direction="up"
           containerStyle={{}}
           style={{ backgroundColor: Colors.main }}
           position="bottomRight"
-          onPress={() => navigation.navigate("CreateBill")}
+          // this doesn't work:
+          // onPress={() => this.setState({ fabActive: !this.state.active })}>
         >
-          <Icon name="add" />
+          <Icon name="md-add" />
+          <Button rounded style={{ backgroundColor: Colors.main }}>
+            <Icon name="md-person" />
+          </Button>
+          <Button rounded style={{ backgroundColor: Colors.main }}>
+            <Icon name="md-people" />
+          </Button>
         </Fab>
       </Container>
     );
