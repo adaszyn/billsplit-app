@@ -15,7 +15,8 @@ import {
   Left,
   Body,
   Right,
-  Button
+  Button,
+  ActionSheet
 } from "native-base";
 import { observer } from "mobx-react";
 
@@ -59,7 +60,27 @@ export class BillList extends React.Component {
           containerStyle={{}}
           style={{ backgroundColor: Colors.main }}
           position="bottomRight"
-          onPress={() => navigation.navigate("CreateBill")}
+          onPress={() => {
+            const buttons = [
+              { text: "Simple bill", icon: "md-person" },
+              { text: "Shareable bill", icon: "md-people" },
+              { text: "Cancel", icon: "md-close"}
+            ];
+            ActionSheet.show(
+              {
+                options: buttons,
+                cancelButtonIndex: buttons.length - 1,
+                title: "Create bill"
+              },
+              buttonIndex => {
+                if (buttonIndex === 0) {
+                  navigation.navigate("CreateBill", { type: "simple" });
+                } else if (buttonIndex === 1) {
+                  navigation.navigate("CreateBill", { type: "shareable" });
+                }
+              }
+            )
+          }}
         >
           <Icon name="add" />
         </Fab>

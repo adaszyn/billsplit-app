@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Root } from "native-base";
 import { BillScreen } from "./screens/bill.screen";
 import { ListScreen } from "./screens/list.screen";
 import { CreateBillScreen } from "./screens/create-bill.screen";
@@ -36,7 +37,11 @@ class Application extends React.Component {
     if (this.state.loading) {
       return <Expo.AppLoading />;
     }
-    return <Navigator />;
+    return (
+      <Root>
+        <Navigator />
+      </Root>
+    );
   }
 }
 export default Application;
