@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+
 const ExpenseRow = ({ name, value }) => {
   return (
-    <View style={{flexDirection: 'row'}} key={`expense-row-${name}-${value}`}>
-      <Text>{name}</Text>
-      <Text>{value}</Text>
+    <View style={styles.container} key={`expense-row-${name}-${value}`}>
+      <Text>{name} </Text>
+      <Text>{value}kr</Text>
     </View>
   );
 };
@@ -14,3 +15,9 @@ export class ExpensesTable extends Component {
     return <View>{expenses.map(ExpenseRow)}</View>;
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row'
+  }
+});
