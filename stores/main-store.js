@@ -8,7 +8,7 @@ export class MainStore {
 }
 
 const createMockBill = () => {
-    const bill = new Bill('Mock Bill');
+    const bill = new Bill('simple', 'Mock Bill');
     const me = new Participant('me', '+46 123 123 123');
     const participant1 = new Participant('Bob', '+46 000 000 000');
     const participant2 = new Participant('Josh', '+46 111 111 111');
