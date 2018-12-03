@@ -17,9 +17,15 @@ export class ListScreen extends React.Component {
       fontWeight: "bold"
     }
   };
+
+
+
   render() {
     const { navigation } = this.props;
     return (
+
+
+
       <BillList
         bills={store.list.bills}
         navigation={navigation}
