@@ -9,10 +9,11 @@ import {
   Text,
   Separator,
   Right,
+  Footer,
+  FooterTab,
   Icon,
   Left
 } from "native-base";
-import { Colors } from "../config/theme.config";
 export class ParticipantExpensesGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -57,20 +58,18 @@ export class ParticipantExpensesGroup extends React.Component {
               onSubmitEditing={this.onNameSubmitEditing}
               placeholder={"Purchased item"}
             />
-      
           </Left>
           <Right>
-          <TextInput
+            <TextInput
               ref={input => (this.priceInput = input)}
               underlineColorAndroid="transparent"
               style={[styles.valueInput]}
               onChangeText={itemValue => this.setState({ itemValue })}
-              placeholder={"Value"}
+              placeholder={"Price"}
               value={this.state.itemValue}
               onSubmitEditing={this.onPriceSubmitEditing}
               keyboardType={"number-pad"}
             />
-    
           </Right>
         </ListItem>
       </Content>
@@ -87,30 +86,3 @@ const styles = StyleSheet.create({
     marginLeft: 10
   }
 });
-
-{
-  /* <ExpensesTable expenses={participant.expenses} />
-
-<View style={{flexDirection: 'row'}}>
-  <TextInput
-    style={[styles.input, styles.nameInput]}
-    onChangeText={(itemName) => this.setState({itemName})}
-    placeholder={'name'}
-  />
-  <TextInput
-    style={[styles.input, styles.valueInput]}
-    onChangeText={(itemValue) => this.setState({itemValue})}
-    placeholder={'price'}
-    keyboardType={'number-pad'}
-  />
-</View>
-
-<Button
-  onPress={() => {
-    const { itemName, itemValue } = this.state;
-    console.log(itemName, itemValue);
-    participant.addExpense(itemName, itemValue);
-  }}
-  title="Add item"
-/> */
-}

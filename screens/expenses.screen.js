@@ -1,73 +1,103 @@
 import React from "react";
-import { ScrollView, Text, Button, Modal, View,TextInput,StyleSheet } from "react-native";
+import { ScrollView, View, TextInput, StyleSheet } from "react-native";
 import { ParticipantExpensesGroup } from "../components/participant-expenses-group";
+import { Content, Icon, Container, Button } from "native-base";
+import { Colors } from "../config/theme.config";
+import { Participant } from "../models/participant";
+import { observer } from "mobx-react";
+
+@observer
 export class ExpensesScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      showModal: false,
-      newPayeeName: ""
-
-    }
+    this.nameInput = null;
+    this.numberInput = null;
+    this.state = {
+      newParticipantName: "",
+      newParticipantNumber: ""
+    };
   }
+  addParticipant = () => {
+    const bill = this.props.navigation.state.params.bill;
+    const { newParticipantName } = this.state;
+    const participant = new Participant(newParticipantName);
+    bill.addParticipant(participant);
+    this.setState({
+      newParticipantName: "",
+      newParticipantNumber: ""
+    });
+    this.nameInput.blur();
+    this.numberInput.blur();
+  };
   static navigationOptions = ({ navigation }) => {
     const bill = navigation.state.params.bill;
     return {
       title: bill.name
     };
   };
+  onNewParticipantNameChange = name => {
+    this.setState({
+      newParticipantName: name
+    });
+  };
+  onNewParticipantNumberChange = number => {
+    this.setState({
+      newParticipantNumber: number
+    });
+  };
   render() {
     const bill = this.props.navigation.state.params.bill;
     return (
-      <ScrollView style={{ flex: 1 }}>
-        {bill.participants.map(participant => (
-          <ParticipantExpensesGroup
-            key={participant.id}
-            participant={participant}
-          />
-        ))}
-
-      <Button
-      onPress={() => this.setState({showModal: true})}
-      title="Add Payee"
-        />
-      
-      <Modal   
-        animationType="slide"
-        transparent={false}
-        visible={this.state.showModal}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-                  }}>
-        <View style={{marginTop: 22}}>
-          <View>
-          <Text style={styles.addNewPayee}>
-          Add New Payee
-          </Text>
-           
+      <Container>
+        <Content style={{ flex: 1 }}>
+          <View style={styles.addParticipantForm}>
             <TextInput
-            style={styles.nameInput}
-            placeholder="Name:"
-           onChangeText={(newPayeeName) => this.setState({newPayeeName})}
-             />
-            <Button 
-            onPress={() =>this.setState({showModal: false})}
-            title="Save"
+              ref={input => (this.nameInput = input)}
+              style={{ flexGrow: 1 }}
+              placeholder="New participant"
+              value={this.state.newParticipantName}
+              onChangeText={this.onNewParticipantNameChange}
             />
-           </View>
+            <TextInput
+              ref={input => (this.numberInput = input)}
+              style={{ flexGrow: 1 }}
+              placeholder="Phone Number"
+              value={this.state.newParticipantNumber}
+              onChangeText={this.onNewParticipantNumberChange}
+            />
+            <Button onPress={this.addParticipant} round>
+              <Icon name="add" style={{ color: Colors.grey }} />
+            </Button>
           </View>
-         </Modal>
-      </ScrollView>
-   
+          <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}>
+            {bill.participants.map(participant => (
+              <ParticipantExpensesGroup
+                key={participant.id}
+                participant={participant}
+              />
+            ))}
+          </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }
 const styles = StyleSheet.create({
-    nameInput: {
+  nameInput: {
     fontSize: 30,
     height: 28
-  }, addNewPayee:{
+  },
+  addNewPayee: {
     fontSize: 20,
     height: 25
-     }
-})
+  },
+  addParticipantForm: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    flexGrow: 1,
+    padding: 10,
+    backgroundColor: "white",
+    elevation: 1
+  }
+});
