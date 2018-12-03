@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
+import {observer} from 'mobx-react';
 
 const ExpenseRow = ({ name, value }) => {
   return (
@@ -9,6 +10,7 @@ const ExpenseRow = ({ name, value }) => {
     </View>
   );
 };
+@observer
 export class ExpensesTable extends Component {
   render() {
     const { expenses } = this.props;

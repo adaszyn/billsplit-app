@@ -39,7 +39,11 @@ export class ParticipantExpensesGroup extends React.Component {
             </View>
 
             <Button
-              onPress={() => console.log(this.state.itemName, this.state.itemValue)}
+              onPress={() => {
+                const { itemName, itemValue } = this.state;
+                console.log(itemName, itemValue);
+                participant.addExpense(itemName, itemValue);
+              }}
               title="Add item"
             />
           </Body>
