@@ -32,9 +32,6 @@ export class BillList extends React.Component {
         <ListItem thumbnail onPress={() => navigation.navigate("Bill", { bill: item })}>
           <Body>
             <Text>{item.name}</Text>
-            <Text note numberOfLines={1}>
-              Its time to build a difference . .
-            </Text>
           </Body>
           <Right>
             <Button
