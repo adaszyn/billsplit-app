@@ -36,9 +36,7 @@ export class ExpensesScreen extends React.Component {
         animationType="slide"
         transparent={false}
         visible={this.state.showModal}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-                  }}>
+        onRequestClose={() => this.setState({showModal: false})}>
         <View style={{marginTop: 22}}>
           <View>
           <Text style={styles.addNewPayee}>
