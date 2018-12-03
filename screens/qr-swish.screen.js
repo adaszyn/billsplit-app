@@ -15,14 +15,7 @@ export class QrSwishScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          source={{
-            uri: "https://mpc.getswish.net/qrg-swish/api/v1/prefilled",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-          }}
+          source={{uri: "https://image-proxy-lamswmfwgf.now.sh/?payee=0730694740&amount=100.0"}}
           style={{width: 400, height: 400}}
         />
         <Text style={styles.text}>
