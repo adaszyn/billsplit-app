@@ -1,71 +1,116 @@
 import React from "react";
-import { View, StyleSheet, Button, TextInput } from "react-native";
-import { Card, CardItem, Body, Text  } from "native-base";
+import { View, StyleSheet, TextInput } from "react-native";
 import { ExpensesTable } from "./expenses-table";
-
+import {
+  Content,
+  List,
+  ListItem,
+  Button,
+  Text,
+  Separator,
+  Right,
+  Icon,
+  Left
+} from "native-base";
+import { Colors } from "../config/theme.config";
 export class ParticipantExpensesGroup extends React.Component {
   constructor(props) {
     super(props);
+    this.nameInput = null;
+    this.priceInput = null;
     this.state = {
       itemName: null,
       itemValue: null
     };
   }
-
+  onNameSubmitEditing = () => {
+    this.priceInput.focus();
+  };
+  onPriceSubmitEditing = () => {
+    const { participant } = this.props;
+    const { itemName, itemValue } = this.state;
+    console.log(itemName, itemValue);
+    participant.addExpense(itemName, itemValue);
+    this.setState({
+      itemName: null,
+      itemValue: null
+    });
+    this.nameInput.focus();
+  };
   render() {
     const { participant } = this.props;
 
     return (
-      <Card>
-        <CardItem header>
-          <Text>{participant.name}</Text>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <ExpensesTable expenses={participant.expenses} />
-
-            <View style={{flexDirection: 'row'}}>
-              <TextInput
-                style={[styles.input, styles.nameInput]}
-                onChangeText={(itemName) => this.setState({itemName})}
-                placeholder={'name'}
-              />
-              <TextInput
-                style={[styles.input, styles.valueInput]}
-                onChangeText={(itemValue) => this.setState({itemValue})}
-                placeholder={'price'}
-                keyboardType={'number-pad'}
-              />
-            </View>
-
-            <Button
-              onPress={() => {
-                const { itemName, itemValue } = this.state;
-                console.log(itemName, itemValue);
-                participant.addExpense(itemName, itemValue);
-              }}
-              title="Add item"
+      <Content>
+        <Separator bordered>
+          <Text>{participant.name.toUpperCase()}</Text>
+        </Separator>
+        <ExpensesTable expenses={participant.expenses} />
+        <ListItem>
+          <Left>
+            <TextInput
+              ref={input => (this.nameInput = input)}
+              underlineColorAndroid="transparent"
+              style={[styles.nameInput]}
+              value={this.state.itemName}
+              onChangeText={itemName => this.setState({ itemName })}
+              onSubmitEditing={this.onNameSubmitEditing}
+              placeholder={"Purchased item"}
             />
-          </Body>
-        </CardItem>
-      </Card>
+      
+          </Left>
+          <Right>
+          <TextInput
+              ref={input => (this.priceInput = input)}
+              underlineColorAndroid="transparent"
+              style={[styles.valueInput]}
+              onChangeText={itemValue => this.setState({ itemValue })}
+              placeholder={"Value"}
+              value={this.state.itemValue}
+              onSubmitEditing={this.onPriceSubmitEditing}
+              keyboardType={"number-pad"}
+            />
+    
+          </Right>
+        </ListItem>
+      </Content>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  input: {
-    height: 30,
-    borderColor: 'gray',
-    borderBottomWidth: 1,
-    marginTop: 10,
-    marginBottom: 10
-  },
   nameInput: {
-    width: 100
+    flexGrow: 5
   },
   valueInput: {
-    width: 30,
+    flexGrow: 2,
     marginLeft: 10
   }
 });
+
+{
+  /* <ExpensesTable expenses={participant.expenses} />
+
+<View style={{flexDirection: 'row'}}>
+  <TextInput
+    style={[styles.input, styles.nameInput]}
+    onChangeText={(itemName) => this.setState({itemName})}
+    placeholder={'name'}
+  />
+  <TextInput
+    style={[styles.input, styles.valueInput]}
+    onChangeText={(itemValue) => this.setState({itemValue})}
+    placeholder={'price'}
+    keyboardType={'number-pad'}
+  />
+</View>
+
+<Button
+  onPress={() => {
+    const { itemName, itemValue } = this.state;
+    console.log(itemName, itemValue);
+    participant.addExpense(itemName, itemValue);
+  }}
+  title="Add item"
+/> */
+}

@@ -3,5 +3,6 @@ export const Colors = {
   secondary: "#3EEAFF",
   background: "#006978",
   grey: "#CDCDCD",
-  red: "red"
+  red: "red",
+  green: "#36802d",
 };
