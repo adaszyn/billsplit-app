@@ -25,25 +25,25 @@ export class BillList extends React.Component {
     // componentDidMount() {
         // this.props.navigation.navigate("Bill", { bill: this.props.bills[0]})
     // }
-  renderListItem = item => {
+  renderListItem = bill => {
     const { navigation, removeBill } = this.props;
     return (
       <TouchableOpacity
-        key={item.id}
-        onPress={() => navigation.navigate("Bill", { bill: item })}
+        key={bill.id}
+        onPress={() => navigation.navigate("Bill", { bill })}
       >
-        <ListItem thumbnail onPress={() => navigation.navigate("Bill", { bill: item })}>
+        <ListItem thumbnail onPress={() => navigation.navigate("Bill", { bill })}>
           <Body>
-            <Text>{item.name}</Text>
+            <Text>{bill.name}</Text>
             <Text note numberOfLines={1}>
-              Its time to build a difference . .
+                {bill.participants.length} participants, {bill.numberOfExpenses} items
             </Text>
           </Body>
           <Right>
             <Button
               active
               style={{ backgroundColor: "transparent", elevation: 0 }}
-              onPress={() => removeBill(item)}
+              onPress={() => removeBill(bill)}
             >
               <Icon name="trash" style={{ color: Colors.red }} active />
             </Button>

@@ -35,6 +35,10 @@ export class Bill {
   get paymentsByParticipants() {
       return groupBy(this.upcomingPayments, payment => payment.payer.id);
   }
+  @computed
+  get numberOfExpenses() {
+      return this.participants.reduce((numberOfExpenses, participant) => numberOfExpenses + participant.expenses.length, 0);
+  }
   addPayment(payerId, payeeId, amount) {
     // TODO: implement
   }
