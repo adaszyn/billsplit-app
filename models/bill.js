@@ -1,13 +1,18 @@
 import { generateId } from "../util/number.util";
 import { Participant } from "./participant";
-import { Payment } from "./payment";
+import { Payment , PaymentState} from "./payment";
 import { observable, computed } from "mobx";
 import groupBy from 'lodash.groupby';
 
+export const BillState = {
+    LOCKED: 'LOCKED',
+    UNLOCKED: 'UNLOCKED'
+}
 export class Bill {
   @observable payments = [];
   @observable participants = [];
   @observable billOwner = null;
+  @observable state = BillState.UNLOCKED;
 
   constructor(name, type, id = generateId()) {
     if (!(type === "simple" || type === "shareable")) {
@@ -19,8 +24,16 @@ export class Bill {
     this.id = id;
   }
   @computed
+  get pastPayments() {
+      return this.payments.filter(payment => payment.state === PaymentState.DONE);
+  }
+  @computed
+  get upcomingPayments() {
+    return this.payments.filter(payment => payment.state !== PaymentState.DONE);
+  }
+  @computed
   get paymentsByParticipants() {
-      return groupBy(this.payments, payment => payment.payer.id);
+      return groupBy(this.upcomingPayments, payment => payment.payer.id);
   }
   addPayment(payerId, payeeId, amount) {
     // TODO: implement
@@ -36,7 +49,7 @@ export class Bill {
     this.participants.push(participant);
   }
   getOwnerPayments() {
-      return this.payments.filter(payment => payment.payer === this.billOwner);
+      return this.payments.filter(payment => payment.state !== PaymentState.DONE && payment.payer === this.billOwner);
   }
   getParticipantsForTransaction = map => {
     let highest, lowest;

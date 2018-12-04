@@ -3,8 +3,9 @@ import { createMaterialTopTabNavigator } from "react-navigation";
 import { Colors } from "../config/theme.config";
 import { PaymentsScreen } from "./payments.screen";
 import { ExpensesScreen } from "./expenses.screen";
-import { Bill } from "../models/bill";
-
+import { Icon } from "native-base";
+import { TouchableOpacity } from "react-native";
+import { BillState } from "../models/bill";
 export const BillScreen = createMaterialTopTabNavigator(
   {
     Expenses: ExpensesScreen,
@@ -32,7 +33,28 @@ export const BillScreen = createMaterialTopTabNavigator(
         headerTintColor: "#fff",
         headerTitleStyle: {
           fontWeight: "bold"
-        }
+        },
+        headerRight: (
+          <TouchableOpacity
+            round
+            style={{ marginRight: 10 }}
+            onPress={() => {
+              if (bill.state === BillState.UNLOCKED) {
+                bill.state = BillState.LOCKED;
+                navigation.navigate("Payments");
+                bill.calculatePayments();
+              } else {
+                bill.state = BillState.UNLOCKED;
+                navigation.navigate("Expenses");
+              }
+            }}
+          >
+            <Icon
+              name={bill.state === BillState.UNLOCKED ? "unlock" : "lock"}
+              style={{ color: "white" }}
+            />
+          </TouchableOpacity>
+        )
       };
     }
   }

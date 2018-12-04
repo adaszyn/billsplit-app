@@ -1,4 +1,5 @@
 import { Participant } from "./participant";
+import { observable } from "mobx";
 
 export const PaymentState = {
     DONE: 'DONE',
@@ -6,6 +7,11 @@ export const PaymentState = {
     ERROR: 'ERROR'
 }
 export class Payment {
+    @observable state = null;
+    @observable payer = null;
+    @observable payee = null;
+    @observable amount = null;
+
     constructor(payer, payee, amount, state = PaymentState.PENDING) {
         if (!(payer instanceof Participant) || !(payee instanceof Participant)) {
             throw Error("payer and payee should be of type Participant");

@@ -13,13 +13,10 @@ import {
   Icon
 } from "native-base";
 import { observer } from "mobx-react";
+import {PaymentState} from '../models/payment';
 
 @observer
 export class PaymentsScreen extends React.Component {
-  componentDidMount() {
-    const bill = this.props.navigation.state.params.bill;
-    bill.calculatePayments();
-  }
   renderOwnerPaymentRow = payment => {
     return (
       <ListItem icon key={`${payment.payer.id}-${payment.payee.id}`}>
@@ -48,6 +45,9 @@ export class PaymentsScreen extends React.Component {
   renderOwnPayments = () => {
     const { bill } = this.props.navigation.state.params;
     const ownerPayments = bill.getOwnerPayments();
+    if (ownerPayments.length === 0) {
+        return null;
+    }
     return [
       this.renderRowHeader("MY PAYMENTS"),
       ...ownerPayments.map(this.renderOwnerPaymentRow)
@@ -81,7 +81,7 @@ export class PaymentsScreen extends React.Component {
       return (
         <View id={participant.name} key={`header-${participant.id}`}>
           <ListItem itemHeader style={{ paddingBottom: 0 }}>
-            <Text>{participant.name}'s Payments</Text>
+            <Text>{participant.name.toUpperCase()}'S PAYMENTS</Text>
           </ListItem>
           {payments.map(this.renderPayment)}
         </View>
@@ -89,24 +89,25 @@ export class PaymentsScreen extends React.Component {
     });
   }
   renderPastPayments() {
-    return (
-      <ListItem icon>
+    const bill = this.props.navigation.state.params.bill;
+    const pastPayments = bill.pastPayments;
+    return pastPayments.map(payment => (
+      <ListItem icon key={`past-payment-${payment.payer.name}-${payment.payee.name}`}>
         <Body>
           <Text>
-            For Sophie - <Text style={{ fontWeight: "700" }}>50 SEK</Text>
+            {payment.payer.name} → {payment.payee.name} - <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
           </Text>
         </Body>
         <Right>
-          <Button icon transparent dark small bordered>
+          <Button icon transparent dark small bordered onPress={() => payment.state = PaymentState.PENDING}>
             <Icon name="undo" />
           </Button>
         </Right>
       </ListItem>
-    );
+    ));
   }
   render() {
     const bill = this.props.navigation.state.params.bill;
-    const payments = bill.payments;
     return (
       <Container>
         <Content>
@@ -116,7 +117,7 @@ export class PaymentsScreen extends React.Component {
             <Separator bordered>
               <Text>PAST PAYMENTS</Text>
             </Separator>
-            {/* ${this.renderPastPayments()} */}
+            {this.renderPastPayments()}
           </List>
         </Content>
       </Container>

@@ -22,6 +22,9 @@ import { observer } from "mobx-react";
 
 @observer
 export class BillList extends React.Component {
+    // componentDidMount() {
+        // this.props.navigation.navigate("Bill", { bill: this.props.bills[0]})
+    // }
   renderListItem = item => {
     const { navigation, removeBill } = this.props;
     return (
