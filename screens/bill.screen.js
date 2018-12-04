@@ -8,7 +8,7 @@ import { Bill } from "../models/bill";
 export const BillScreen = createMaterialTopTabNavigator(
   {
     Expenses: ExpensesScreen,
-    Payments: PaymentsScreen
+    Payments: PaymentsScreen,
   },
   {
     tabBarOptions: {

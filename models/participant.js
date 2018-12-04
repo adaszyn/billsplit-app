@@ -13,4 +13,11 @@ export class Participant {
     addExpense(name, value) {
         this.expenses.push(new Expense(name, value));
     }
+    getExpensesValueSum() {
+        let sum = 0;
+        for (let expense of this.expenses) {
+            sum += expense.value;
+        }
+        return sum;
+    }
 }

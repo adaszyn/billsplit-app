@@ -1,25 +1,133 @@
 import { generateId } from "../util/number.util";
 import { Participant } from "./participant";
+import { Payment } from "./payment";
+import { observable, computed } from "mobx";
+import groupBy from 'lodash.groupby';
 
 export class Bill {
-    constructor(name, type, id = generateId()) {
-        if (!(type === 'simple' || type === 'shareable')) {
-            throw new Error('type of bill should be either simple or shareable')
-        }
+  @observable payments = [];
+  @observable participants = [];
+  @observable billOwner = null;
 
-        this.type = type;
-        this.name = name;
-        this.id = id;
-        this.participants = [];
-        this.payments = [];
+  constructor(name, type, id = generateId()) {
+    if (!(type === "simple" || type === "shareable")) {
+      throw new Error("type of bill should be either simple or shareable");
     }
-    addPayment(payerId, payeeId, amount) {
-        // TODO: implement
+
+    this.type = type;
+    this.name = name;
+    this.id = id;
+  }
+  @computed
+  get paymentsByParticipants() {
+      return groupBy(this.payments, payment => payment.payer.id);
+  }
+  addPayment(payerId, payeeId, amount) {
+    // TODO: implement
+  }
+  addBillOwner(participant) {
+      this.addParticipant(participant);
+      this.billOwner = participant;
+  }
+  addParticipant(participant) {
+    if (!(participant instanceof Participant)) {
+      throw new Error("participant has to be of type Participant");
     }
-    addParticipant(participant) {
-        if (!(participant instanceof Participant)) {
-            throw new Error('participant has to be of type Participant');
-        }
-        this.participants.push(participant);
+    this.participants.push(participant);
+  }
+  getOwnerPayments() {
+      return this.payments.filter(payment => payment.payer === this.billOwner);
+  }
+  getParticipantsForTransaction = map => {
+    let highest, lowest;
+    for (let participantId of Object.keys(map)) {
+      let entry = map[participantId];
+      if (!lowest || lowest.expenses > entry.expenses) {
+        lowest = {
+          id: participantId,
+          expenses: entry.expenses
+        };
+      }
+      if (!highest || highest.expenses < entry.expenses) {
+        highest = {
+          id: participantId,
+          expenses: entry.expenses
+        };
+      }
     }
+    return { highest, lowest };
+  };
+  areExpensesEqual(map) {
+    let set = new Set([]);
+    for (let participantId of Object.keys(map)) {
+      set.add(Math.floor(map[participantId].expenses));
+    }
+    return set.size < 2;
+  }
+  findParticipantById(id) {
+    let participant = this.participants.filter(
+      participant => participant.id === id
+    );
+    return participant ? participant[0] : null;
+  }
+  flattenTransactionsToPayments(transactions) {
+    const paymentsMap = new Map([]);
+    for (let { from, to, value } of transactions) {
+      let key = `${from},${to}`;
+      if (paymentsMap.has(key)) {
+        paymentsMap.set(key, paymentsMap.get(key) + value);
+      } else {
+        paymentsMap.set(key, value);
+      }
+    }
+
+    let payments = [];
+    for ([key, value] of paymentsMap.entries()) {
+      let [from, to] = key.split(",");
+      const payer = this.findParticipantById(from);
+      const payee = this.findParticipantById(to);
+      const payment = new Payment(payer, payee, value);
+      payments.push(payment);
+    }
+    return payments;
+  }
+  calculatePayments() {
+    let payments = [];
+    const map = this.getExpensesMap();
+    const expensesSum = this.getExpensesSum();
+    const sumPerParticipant = expensesSum / this.participants.length;
+
+    while (!this.areExpensesEqual(map)) {
+      const { highest, lowest } = this.getParticipantsForTransaction(map);
+      const transactionValue = sumPerParticipant - lowest.expenses;
+      payments.push({
+        from: lowest.id,
+        to: highest.id,
+        value: transactionValue
+      });
+      map[highest.id].expenses = map[highest.id].expenses - transactionValue;
+      map[lowest.id].expenses = map[lowest.id].expenses + transactionValue;
+    }
+    this.payments = this.flattenTransactionsToPayments(payments);
+  }
+  getExpensesMap() {
+    let expensesDebtMap = {};
+    for (let participant of this.participants) {
+      let participantExpenses = participant.getExpensesValueSum();
+      expensesDebtMap[participant.id] = {
+        expenses: participantExpenses
+      };
+    }
+
+    return expensesDebtMap;
+  }
+  getExpensesSum() {
+    let expensesSum = 0;
+    for (let participant of this.participants) {
+      let participantExpenses = participant.getExpensesValueSum();
+      expensesSum += participantExpenses;
+    }
+
+    return expensesSum;
+  }
 }
