@@ -63,7 +63,7 @@ export class PaymentsScreen extends React.Component {
           </Text>
         </Body>
         <Right>
-          <Button iconLeft transparent primary small bordered>
+          <Button iconLeft transparent primary small bordered onPress={() => this.props.navigation.navigate("QrSwish", {payment: payment})}>
             <Icon name="qr-scanner" />
             <Text>QR</Text>
           </Button>

@@ -4,6 +4,7 @@ import { Root } from "native-base";
 import { BillScreen } from "./screens/bill.screen";
 import { ListScreen } from "./screens/list.screen";
 import { CreateBillScreen } from "./screens/create-bill.screen";
+import { QrSwishScreen } from "./screens/qr-swish.screen"
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 const AppNavigator = createStackNavigator({
@@ -15,6 +16,9 @@ const AppNavigator = createStackNavigator({
   },
   CreateBill: {
     screen: CreateBillScreen
+  },
+  QrSwish: {
+    screen: QrSwishScreen
   }
 });
 const Navigator = createAppContainer(AppNavigator);

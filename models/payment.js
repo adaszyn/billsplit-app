@@ -24,4 +24,8 @@ export class Payment {
         this.amount = amount;
         this.state = state;
     }
+
+    qrUri() {
+        return `https://image-proxy-lamswmfwgf.now.sh/?payee=${this.payee.phoneNumber}&amount=${this.amount}`
+    }
 }
