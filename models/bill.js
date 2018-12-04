@@ -2,7 +2,7 @@ import { generateId } from "../util/number.util";
 import { Participant } from "./participant";
 
 export class Bill {
-    constructor(type, name, id = generateId()) {
+    constructor(name, type, id = generateId()) {
         if (!(type === 'simple' || type === 'shareable')) {
             throw new Error('type of bill should be either simple or shareable')
         }
