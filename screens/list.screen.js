@@ -18,16 +18,9 @@ export class ListScreen extends React.Component {
     }
   };
 
-componentDidMount() {
-    this.props.navigation.navigate("CreateBill", { type: "simple" });
-}
-
   render() {
     const { navigation } = this.props;
     return (
-
-
-
       <BillList
         bills={store.list.bills}
         navigation={navigation}

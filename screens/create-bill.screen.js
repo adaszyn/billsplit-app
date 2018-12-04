@@ -1,5 +1,11 @@
 import React from "react";
-import { TextInput, StyleSheet, View } from "react-native";
+import {
+  TextInput,
+  StyleSheet,
+  View,
+  KeyboardAvoidingView
+} from "react-native";
+import { Header } from 'react-navigation';
 import { store } from "../stores/main-store";
 
 import { Text, Button, Container, Card, CardItem, Body } from "native-base";
@@ -32,25 +38,31 @@ export class CreateBillScreen extends React.Component {
 
   render() {
     return (
-      <Container style={styles.container}>
-        <Card style={{ flex: 1 }}>
-          <CardItem style={{ flex: 1 }}>
-            <Body>
-              <Text style={styles.label}>CREATE NEW SIMPLE BILL</Text>
-              <TextInput
-                placeholder="Enter list name"
-                style={styles.input}
-                onChangeText={billName => this.setState({ billName })}
-                value={this.state.billName}
-              />
-              <View style={{ flexGrow: 1 }} />
-              <Button block onPress={this.onSubmit}>
-                <Text>Save</Text>
-              </Button>
-            </Body>
-          </CardItem>
-        </Card>
-      </Container>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={Header.HEIGHT + 20}
+        style={{ flex: 1 }}
+        behavior="padding"
+      >
+        <Container style={styles.container}>
+          <Card style={{ flex: 1 }}>
+            <CardItem style={{ flex: 1 }}>
+              <Body>
+                <Text style={styles.label}>CREATE NEW SIMPLE BILL</Text>
+                <TextInput
+                  placeholder="Enter list name"
+                  style={styles.input}
+                  onChangeText={billName => this.setState({ billName })}
+                  value={this.state.billName}
+                />
+                <View style={{ flexGrow: 1 }} />
+                <Button block onPress={this.onSubmit}>
+                  <Text>Save</Text>
+                </Button>
+              </Body>
+            </CardItem>
+          </Card>
+        </Container>
+      </KeyboardAvoidingView>
     );
   }
 }
