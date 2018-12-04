@@ -59,7 +59,7 @@ export class PaymentsScreen extends React.Component {
         <Body>
           <Text>
             For {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>${payment.amount} SEK</Text>
+            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
           </Text>
         </Body>
         <Right>
