@@ -79,7 +79,7 @@ export class BillList extends React.Component {
                 if (buttonIndex === 0) {
                   navigation.navigate("CreateBill", { type: "simple" });
                 } else if (buttonIndex === 1) {
-                  navigation.navigate("CreateBill", { type: "shareable" });
+                  console.warn("Not implemented yet")
                 }
               }
             )

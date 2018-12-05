@@ -27,7 +27,10 @@ export class PaymentsScreen extends React.Component {
           </Text>
         </Body>
         <Right>
-          <Button iconLeft transparent success small bordered>
+          <Button
+            iconLeft transparent success small bordered
+            onPress={() => console.warn("Not implemented yet")}
+          >
             <Icon name="card" />
             <Text>Pay</Text>
           </Button>
