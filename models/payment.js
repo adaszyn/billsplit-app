@@ -16,7 +16,7 @@ export class Payment {
         if (!(payer instanceof Participant) || !(payee instanceof Participant)) {
             throw Error("payer and payee should be of type Participant");
         }
-        if (typeof amount !== 'number' || amount <= 0) {
+        if (typeof amount !== 'number' || amount < 0) {
             throw new Error('amount should be positive number');
         }
         this.payer = payer;
