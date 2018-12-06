@@ -62,6 +62,8 @@ export class ExpensesScreen extends React.Component {
               {bill.participants.map(participant => (
                 <ParticipantExpensesGroup
                   key={participant.id}
+                  isOwner={participant === bill.billOwner}
+                  removeParticipant={() => bill.removeParticipant(participant)}
                   participant={participant}
                 />
               ))}

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { ExpensesTable } from "./expenses-table";
 import {
   Content,
@@ -37,14 +37,35 @@ export class ParticipantExpensesGroup extends React.Component {
     });
     this.nameInput.focus();
   };
+  renderSeparator = () => {
+    const { isOwner, participant, removeParticipant } = this.props;
+    return (
+      <Separator bordered>
+        <View
+          style={{
+            justifyContent: isOwner ? "flex-start" : "space-between",
+            ...styles.separatorStyles
+          }}
+        >
+          <Text>{participant.name.toUpperCase()}</Text>
+          {!isOwner && (
+            <TouchableOpacity onPress={removeParticipant}>
+              <Icon
+                fontSize={18}
+                name="remove-circle"
+                style={{ color: "#BEBEBE", fontSize: 18 }}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </Separator>
+    );
+  };
   render() {
     const { participant } = this.props;
-
     return (
       <Content>
-        <Separator bordered>
-          <Text>{participant.name.toUpperCase()}</Text>
-        </Separator>
+        {this.renderSeparator()}
         <ExpensesTable expenses={participant.expenses} />
         <ListItem>
           <Left>
@@ -83,5 +104,11 @@ const styles = StyleSheet.create({
   valueInput: {
     flexGrow: 2,
     marginLeft: 10
+  },
+  separatorStyles: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    marginRight: 10
   }
 });

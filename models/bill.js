@@ -1,7 +1,7 @@
 import { generateId } from "../util/number.util";
 import { Participant } from "./participant";
 import { Payment, PaymentState } from "./payment";
-import { observable, computed } from "mobx";
+import { observable, computed, action } from "mobx";
 import groupBy from "lodash.groupby";
 import { PhoneUser } from "./phone-user";
 
@@ -115,6 +115,10 @@ export class Bill {
       participant => participant.id === id
     );
     return participant ? participant[0] : null;
+  }
+  @action
+  removeParticipant(participant) {
+      this.participants = this.participants.filter(collectionItem => collectionItem !== participant);
   }
   flattenTransactionsToPayments(transactions) {
     const paymentsMap = new Map([]);

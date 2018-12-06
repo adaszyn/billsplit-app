@@ -43,8 +43,8 @@ export class ExpensesTable extends Component {
               }}
             >
               <Icon
-                name="trash"
-                style={{ color: Colors.red, padding: 0 }}
+                name="close"
+                style={{ color: Colors.grey, padding: 0 }}
                 active
               />
             </Button>
