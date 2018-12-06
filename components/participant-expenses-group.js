@@ -30,7 +30,7 @@ export class ParticipantExpensesGroup extends React.Component {
   onPriceSubmitEditing = () => {
     const { participant } = this.props;
     const { itemName, itemValue } = this.state;
-    participant.addExpense(itemName, itemValue);
+    participant.addExpense(itemName, Number(itemValue));
     this.setState({
       itemName: null,
       itemValue: null

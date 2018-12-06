@@ -3,6 +3,11 @@ import { observable, action } from "mobx";
 
 export class List {
   @observable bills = [];
+  static fromJSON(list) {
+    const instance = new List();
+    instance.bills = list.bills.map(Bill.fromJSON);
+    return instance;
+  }
 
   addBill(bill) {
     if (!(bill instanceof Bill)) {

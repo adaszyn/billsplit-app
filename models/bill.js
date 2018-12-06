@@ -1,14 +1,34 @@
 import { generateId } from "../util/number.util";
 import { Participant } from "./participant";
-import { Payment , PaymentState} from "./payment";
+import { Payment, PaymentState } from "./payment";
 import { observable, computed } from "mobx";
-import groupBy from 'lodash.groupby';
+import groupBy from "lodash.groupby";
+import { PhoneUser } from "./phone-user";
 
 export const BillState = {
-    LOCKED: 'LOCKED',
-    UNLOCKED: 'UNLOCKED'
-}
+  LOCKED: "LOCKED",
+  UNLOCKED: "UNLOCKED"
+};
 export class Bill {
+  static fromJSON(bill) {
+    const instance = new Bill(bill.name, bill.type, bill.id);
+    instance.participants = bill.participants.map(Participant.fromJSON);
+    instance.billOwner = instance.participants.filter(participant => participant.id === bill.billOwner)[0];
+    instance.state = bill.state;
+    return instance;
+  }
+  toJSON() {
+      const { participants, type, name, id, payments, state, billOwner } = this;
+      return {
+        type,
+        name,
+        id,
+        payments,
+        participants,
+        state,
+        billOwner: billOwner.id
+      }
+  }
   @observable payments = [];
   @observable participants = [];
   @observable billOwner = null;
@@ -18,14 +38,16 @@ export class Bill {
     if (!(type === "simple" || type === "shareable")) {
       throw new Error("type of bill should be either simple or shareable");
     }
-
+    if (type === 'simple') {
+        this.addBillOwner(new PhoneUser());
+    }
     this.type = type;
     this.name = name;
     this.id = id;
   }
   @computed
   get pastPayments() {
-      return this.payments.filter(payment => payment.state === PaymentState.DONE);
+    return this.payments.filter(payment => payment.state === PaymentState.DONE);
   }
   @computed
   get upcomingPayments() {
@@ -33,18 +55,22 @@ export class Bill {
   }
   @computed
   get paymentsByParticipants() {
-      return groupBy(this.upcomingPayments, payment => payment.payer.id);
+    return groupBy(this.upcomingPayments, payment => payment.payer.id);
   }
   @computed
   get numberOfExpenses() {
-      return this.participants.reduce((numberOfExpenses, participant) => numberOfExpenses + participant.expenses.length, 0);
+    return this.participants.reduce(
+      (numberOfExpenses, participant) =>
+        numberOfExpenses + participant.expenses.length,
+      0
+    );
   }
   addPayment(payerId, payeeId, amount) {
     // TODO: implement
   }
   addBillOwner(participant) {
-      this.addParticipant(participant);
-      this.billOwner = participant;
+    this.addParticipant(participant);
+    this.billOwner = participant;
   }
   addParticipant(participant) {
     if (!(participant instanceof Participant)) {
@@ -53,7 +79,10 @@ export class Bill {
     this.participants.push(participant);
   }
   getOwnerPayments() {
-      return this.payments.filter(payment => payment.state !== PaymentState.DONE && payment.payer === this.billOwner);
+    return this.payments.filter(
+      payment =>
+        payment.state !== PaymentState.DONE && payment.payer === this.billOwner
+    );
   }
   getParticipantsForTransaction = map => {
     let highest, lowest;
@@ -113,7 +142,6 @@ export class Bill {
     const map = this.getExpensesMap();
     const expensesSum = this.getExpensesSum();
     const sumPerParticipant = expensesSum / this.participants.length;
-
     while (!this.areExpensesEqual(map)) {
       const { highest, lowest } = this.getParticipantsForTransaction(map);
       const transactionValue = sumPerParticipant - lowest.expenses;
