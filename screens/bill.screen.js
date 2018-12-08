@@ -21,7 +21,7 @@ export const BillScreen = createMaterialTopTabNavigator(
       return {
         title: bill ? bill.name : "Bill",
         headerStyle: {
-          backgroundColor: Colors.main
+          backgroundColor: bill.state === BillState.UNLOCKED ? Colors.main : Colors.lockedList
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
