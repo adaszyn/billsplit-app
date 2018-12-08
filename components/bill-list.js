@@ -11,10 +11,12 @@ import {
   Body,
   Right,
   Button,
-  ActionSheet
+  ActionSheet,
+  Left
 } from "native-base";
 import { observer } from "mobx-react";
 import { store } from "../stores/main-store";
+import { BillState } from "../models/bill";
 
 const EmptyListPlaceholder = () => (
   <View style={styles.placeholderContainer}>
@@ -32,23 +34,29 @@ export class BillList extends React.Component {
     store.currentBill = bill;
     navigation.navigate("Bill");
   };
-  onBillRemove = (bill) => {
+  onBillRemove = bill => {
     const { removeBill } = this.props;
     Alert.alert(
-        'Remove bill?',
-        'Bill will be remove permanently',
-        [
-          {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-          {text: 'OK', onPress: () => removeBill(bill)},
-        ],
-        { cancelable: false }
-      )
-    
-  }
+      "Remove bill?",
+      "Bill will be remove permanently",
+      [
+        { text: "Cancel", onPress: () => {}, style: "cancel" },
+        { text: "OK", onPress: () => removeBill(bill) }
+      ],
+      { cancelable: false }
+    );
+  };
   renderListItem = bill => {
+    const stripeColor =
+      bill.state === BillState.LOCKED ? Colors.lockedList : Colors.unlockedList;
     return (
       <TouchableOpacity key={bill.id}>
         <ListItem thumbnail onPress={() => this.onBillSelect(bill)}>
+          <Left>
+            <View
+              style={{...styles.stripe, backgroundColor: stripeColor}}
+            />
+          </Left>
           <Body>
             <Text>{bill.name}</Text>
             <Text note numberOfLines={1}>
@@ -62,7 +70,11 @@ export class BillList extends React.Component {
               style={{ backgroundColor: "transparent", elevation: 0 }}
               onPress={() => this.onBillRemove(bill)}
             >
-              <Icon name="remove-circle" style={{ color: Colors.grey }} active />
+              <Icon
+                name="remove-circle"
+                style={{ color: Colors.grey }}
+                active
+              />
             </Button>
           </Right>
         </ListItem>
@@ -124,9 +136,6 @@ export class BillList extends React.Component {
   }
 }
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 4
-  },
   placeholderText: {
     color: Colors.grey,
     fontSize: 20,
@@ -144,5 +153,10 @@ const styles = StyleSheet.create({
     color: Colors.grey,
     padding: 0,
     textAlign: "center"
+  },
+  stripe: {
+    width: 4,
+    height: 40,
+    borderRadius: 10,
   }
 });

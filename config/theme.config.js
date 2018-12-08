@@ -7,4 +7,6 @@ export const Colors = {
   darkgrey: "#111111",
   red: "#ab000d",
   green: "#36802d",
+  unlockedList: "#36802d",
+  lockedList: "#d9534f",
 };
