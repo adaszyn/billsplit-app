@@ -13,11 +13,17 @@ import {
   Icon
 } from "native-base";
 import { observer } from "mobx-react";
-import {PaymentState} from '../models/payment';
+import { PaymentState } from "../models/payment";
+
+import { Linking as ExpoLinking } from "expo";
+import { Linking } from "react-native";
+import { store } from "../stores/main-store";
+import {SwishUtil} from '../util/swish.util';
 
 @observer
 export class PaymentsScreen extends React.Component {
   renderOwnerPaymentRow = payment => {
+    const bill = this.props.screenProps.bill;
     return (
       <ListItem icon key={`${payment.payer.id}-${payment.payee.id}`}>
         <Body>
@@ -28,8 +34,12 @@ export class PaymentsScreen extends React.Component {
         </Body>
         <Right>
           <Button
-            iconLeft transparent success small bordered
-            onPress={() => console.warn("Not implemented yet")}
+            iconLeft
+            transparent
+            success
+            small
+            bordered
+            onPress={() => SwishUtil.createPayment(payment.payee.phoneNumber, payment.amount, bill.id, payment.id)}
           >
             <Icon name="card" />
             <Text>Pay</Text>
@@ -40,16 +50,21 @@ export class PaymentsScreen extends React.Component {
   };
   renderRowHeader = header => {
     return (
-      <ListItem key="own-payments-header" itemHeader style={{ paddingBottom: 0 }}>
+      <ListItem
+        key="own-payments-header"
+        itemHeader
+        style={{ paddingBottom: 0 }}
+      >
         <Text>{header}</Text>
       </ListItem>
     );
   };
   renderOwnPayments = () => {
-    const { bill } = this.props.navigation.state.params;
+    const bill = this.props.screenProps.bill;
+
     const ownerPayments = bill.getOwnerPayments();
     if (ownerPayments.length === 0) {
-        return null;
+      return null;
     }
     return [
       this.renderRowHeader("MY PAYMENTS"),
@@ -66,7 +81,16 @@ export class PaymentsScreen extends React.Component {
           </Text>
         </Body>
         <Right>
-          <Button iconLeft transparent primary small bordered onPress={() => this.props.navigation.navigate("QrSwish", {payment: payment})}>
+          <Button
+            iconLeft
+            transparent
+            primary
+            small
+            bordered
+            onPress={() =>
+              this.props.navigation.navigate("QrSwish", { payment: payment })
+            }
+          >
             <Icon name="qr-scanner" />
             <Text>QR</Text>
           </Button>
@@ -75,7 +99,9 @@ export class PaymentsScreen extends React.Component {
     );
   };
   renderParticipantsPayments() {
-    const bill = this.props.navigation.state.params.bill;
+    // const bill = this.props.navigation.state.params.bill;
+    const bill = this.props.screenProps.bill ;
+
     const paymentsByParticipants = bill.paymentsByParticipants;
     delete paymentsByParticipants[bill.billOwner.id];
     return Object.keys(paymentsByParticipants).map(participantId => {
@@ -92,17 +118,30 @@ export class PaymentsScreen extends React.Component {
     });
   }
   renderPastPayments() {
-    const bill = this.props.navigation.state.params.bill;
+    // const bill = this.props.navigation.state.params.bill;
+    const bill = this.props.screenProps.bill ;
+
     const pastPayments = bill.pastPayments;
     return pastPayments.map(payment => (
-      <ListItem icon key={`past-payment-${payment.payer.name}-${payment.payee.name}`}>
+      <ListItem
+        icon
+        key={`past-payment-${payment.payer.name}-${payment.payee.name}`}
+      >
         <Body>
           <Text>
-            {payment.payer.name} → {payment.payee.name} - <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
+            {payment.payer.name} → {payment.payee.name} -{" "}
+            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
           </Text>
         </Body>
         <Right>
-          <Button icon transparent dark small bordered onPress={() => payment.state = PaymentState.PENDING}>
+          <Button
+            icon
+            transparent
+            dark
+            small
+            bordered
+            onPress={() => (payment.state = PaymentState.PENDING)}
+          >
             <Icon name="undo" />
           </Button>
         </Right>
@@ -110,11 +149,15 @@ export class PaymentsScreen extends React.Component {
     ));
   }
   render() {
-    const bill = this.props.navigation.state.params.bill;
+    const bill = this.props.screenProps.bill;
+    if (!bill) {
+      return null;
+    }
     return (
       <Container>
         <Content>
           <List>
+            
             {this.renderOwnPayments()}
             {this.renderParticipantsPayments()}
             <Separator bordered>

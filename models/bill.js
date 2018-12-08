@@ -65,6 +65,9 @@ export class Bill {
       0
     );
   }
+  getPaymentById(paymentId) {
+      return this.payments.filter(payment => payment.id === paymentId)[0];
+  }
   addPayment(payerId, payeeId, amount) {
     // TODO: implement
   }

@@ -1,5 +1,6 @@
 import { Participant } from "./participant";
 import { observable } from "mobx";
+import {generateId} from '../util/number.util';
 
 export const PaymentState = {
     DONE: 'DONE',
@@ -11,8 +12,9 @@ export class Payment {
     @observable payer = null;
     @observable payee = null;
     @observable amount = null;
+    id = null;
 
-    constructor(payer, payee, amount, state = PaymentState.PENDING) {
+    constructor(payer, payee, amount, state = PaymentState.PENDING, id = generateId()) {
         if (!(payer instanceof Participant) || !(payee instanceof Participant)) {
             throw Error("payer and payee should be of type Participant");
         }
@@ -23,6 +25,7 @@ export class Payment {
         this.payee = payee;
         this.amount = amount;
         this.state = state;
+        this.id = id;
     }
 
     qrUri() {

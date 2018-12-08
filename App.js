@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking as ExpoLinking } from 'expo';
+import { Linking } from "react-native";
 import { Root } from "native-base";
 import { BillScreen } from "./screens/bill.screen";
 import { ListScreen } from "./screens/list.screen";
@@ -12,7 +13,8 @@ const AppNavigator = createStackNavigator({
     screen: ListScreen
   },
   Bill: {
-    screen: BillScreen
+    screen: BillScreen,
+    path: 'bill'
   },
   CreateBill: {
     screen: CreateBillScreen
@@ -22,6 +24,7 @@ const AppNavigator = createStackNavigator({
   }
 });
 const Navigator = createAppContainer(AppNavigator);
+
 class Application extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +46,7 @@ class Application extends React.Component {
     }
     return (
       <Root>
-        <Navigator />
+        <Navigator uriPrefix={ExpoLinking.makeUrl('/', {})} />
       </Root>
     );
   }

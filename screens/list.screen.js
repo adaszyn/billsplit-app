@@ -18,6 +18,11 @@ export class ListScreen extends React.Component {
     }
   };
 
+  
+  componentDidMount() {
+    //   this.props.navigation.navigate("Bill", {bill: store.list.bills[0]})
+  }
+
   render() {
     const { navigation } = this.props;
     return (
