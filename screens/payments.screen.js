@@ -23,7 +23,7 @@ import {SwishUtil} from '../util/swish.util';
 @observer
 export class PaymentsScreen extends React.Component {
   renderOwnerPaymentRow = payment => {
-    const bill = this.props.screenProps.bill;
+    const bill = store.currentBill;
     return (
       <ListItem icon key={`${payment.payer.id}-${payment.payee.id}`}>
         <Body>
@@ -60,7 +60,7 @@ export class PaymentsScreen extends React.Component {
     );
   };
   renderOwnPayments = () => {
-    const bill = this.props.screenProps.bill;
+    const bill = store.currentBill;
 
     const ownerPayments = bill.getOwnerPayments();
     if (ownerPayments.length === 0) {
@@ -100,7 +100,7 @@ export class PaymentsScreen extends React.Component {
   };
   renderParticipantsPayments() {
     // const bill = this.props.navigation.state.params.bill;
-    const bill = this.props.screenProps.bill ;
+    const bill = store.currentBill;
 
     const paymentsByParticipants = bill.paymentsByParticipants;
     delete paymentsByParticipants[bill.billOwner.id];
@@ -119,7 +119,7 @@ export class PaymentsScreen extends React.Component {
   }
   renderPastPayments() {
     // const bill = this.props.navigation.state.params.bill;
-    const bill = this.props.screenProps.bill ;
+    const bill = store.currentBill;
 
     const pastPayments = bill.pastPayments;
     return pastPayments.map(payment => (
@@ -149,7 +149,7 @@ export class PaymentsScreen extends React.Component {
     ));
   }
   render() {
-    const bill = this.props.screenProps.bill;
+    const bill = store.currentBill;
     if (!bill) {
       return null;
     }

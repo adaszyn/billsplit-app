@@ -6,15 +6,16 @@ import { BillScreen } from "./screens/bill.screen";
 import { ListScreen } from "./screens/list.screen";
 import { CreateBillScreen } from "./screens/create-bill.screen";
 import { QrSwishScreen } from "./screens/qr-swish.screen"
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createAppContainer, withNavigation } from "react-navigation";
+import { store } from "./stores/main-store";
+import { PaymentState } from "./models/payment";
 
 const AppNavigator = createStackNavigator({
   List: {
     screen: ListScreen
   },
   Bill: {
-    screen: BillScreen,
-    path: 'bill'
+    screen: BillScreen
   },
   CreateBill: {
     screen: CreateBillScreen
@@ -23,7 +24,58 @@ const AppNavigator = createStackNavigator({
     screen: QrSwishScreen
   }
 });
-const Navigator = createAppContainer(AppNavigator);
+
+class AppRoot extends React.Component {
+  static router = AppNavigator.router;
+   
+  async componentWillMount() {
+    const url = await Linking.getInitialURL();
+    this._handleOpenURL({ url });
+  }
+
+  componentDidMount() {
+    Linking.addEventListener("url", this._handleOpenURL);
+  }
+  componentWillUnmount() {
+    Linking.removeEventListener("url", this._handleOpenURL);
+  }
+  _handleOpenURL = ({ url }) => {
+    let { queryParams } = ExpoLinking.parse(url);
+    const paymentDetails =
+      queryParams.paymentDetails && JSON.parse(queryParams.paymentDetails);
+    const swishresponse =
+      queryParams.swishresponse && JSON.parse(queryParams.swishresponse);
+    if (paymentDetails) {
+      const bill = store.list.bills.filter(
+        bill => bill.id === paymentDetails.billId
+      )[0];
+      const payment = bill.getPaymentById(paymentDetails.paymentId);
+      if (!payment) {
+        alert("Payment Failure", "Payment not found");
+        this.props.navigation.navigate("List");
+        return;
+      }
+      if (swishresponse.result === "paid") {
+        payment.state = PaymentState.DONE;
+      }
+      if (
+        swishresponse.result === "notpaid" ||
+        swishresponse.result === "unknown"
+      ) {
+          setTimeout(() => {
+            alert("Payment Failure", "Payment failed");
+          }, 500);
+      }
+      store.currentBill = bill;
+      this.props.navigation.navigate("Payments");
+    }
+  }
+    render() {
+       return <AppNavigator navigation={this.props.navigation} />;
+    }
+}
+const Navigator = createAppContainer(AppRoot);
+
 
 class Application extends React.Component {
   constructor(props) {

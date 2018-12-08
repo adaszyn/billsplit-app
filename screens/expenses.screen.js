@@ -43,13 +43,13 @@ export class ExpensesScreen extends React.Component {
 
 
   onNewParticipant = participant => {
-    const bill = this.props.navigation.state.params.bill;
+    const bill = store.currentBill;
     bill.addParticipant(participant);
   };
 
 
   render() {
-    const bill = this.props.screenProps.bill;
+    const bill = store.currentBill;
 
     if (!bill) {
       return null;

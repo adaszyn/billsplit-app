@@ -7,6 +7,7 @@ const MAIN_STORE_KEY = "@BillSplit-Store";
 import { AsyncStorage } from "react-native";
 export class MainStore {
   @observable list = new List();
+  @observable currentBill = null;
   static fromJSON(store) {
     const instance = new MainStore();
     instance.list = List.fromJSON(store.list);

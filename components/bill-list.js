@@ -19,6 +19,7 @@ import {
   ActionSheet
 } from "native-base";
 import { observer } from "mobx-react";
+import { store } from '../stores/main-store';
 
 @observer
 export class BillList extends React.Component {
@@ -32,7 +33,7 @@ export class BillList extends React.Component {
         key={bill.id}
         onPress={() => navigation.navigate("Bill", { bill })}
       >
-        <ListItem thumbnail onPress={() => navigation.navigate("Bill", { bill })}>
+        <ListItem thumbnail onPress={() => { store.currentBill = bill; navigation.navigate("Bill"); }}>
           <Body>
             <Text>{bill.name}</Text>
             <Text note numberOfLines={1}>

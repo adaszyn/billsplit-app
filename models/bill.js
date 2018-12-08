@@ -15,6 +15,13 @@ export class Bill {
     instance.participants = bill.participants.map(Participant.fromJSON);
     instance.billOwner = instance.participants.filter(participant => participant.id === bill.billOwner)[0];
     instance.state = bill.state;
+    
+    instance.payments = bill.payments.map(payment => {
+        const payee = instance.participants.find(p => p.id === payment.payee);
+        const payer = instance.participants.find(p => p.id === payment.payer);
+        const { amount, state, id } = payment;
+        return new Payment(payer, payee, amount, state, id);
+    });
     return instance;
   }
   toJSON() {
