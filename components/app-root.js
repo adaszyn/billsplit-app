@@ -8,10 +8,14 @@ import { QrSwishScreen } from "../screens/qr-swish.screen";
 import { store } from "../stores/main-store";
 import { PaymentState } from "../models/payment";
 import { Linking as ExpoLinking } from 'expo';
+import {SettingsScreen} from '../screens/settings.screen';
 
 const AppNavigator = createStackNavigator({
   List: {
     screen: ListScreen
+  },
+  Settings: {
+      screen: SettingsScreen,
   },
   Bill: {
     screen: BillScreen
