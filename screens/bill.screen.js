@@ -6,27 +6,20 @@ import { ExpensesScreen } from "./expenses.screen";
 import { Icon } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { BillState } from "../models/bill";
+import { store } from "../stores/main-store";
+
 export const BillScreen = createMaterialTopTabNavigator(
   {
     Expenses: ExpensesScreen,
-    Payments: PaymentsScreen,
+    Payments: {
+      screen: PaymentsScreen
+    }
   },
   {
-    tabBarOptions: {
-      style: {
-        backgroundColor: "white"
-      },
-      indicatorStyle: {
-        color: "transparent",
-        backgroundColor: Colors.background
-      },
-      inactiveTintColor: Colors.grey,
-      activeTintColor: "black"
-    },
     navigationOptions: ({ navigation }) => {
-      const bill = navigation.state.params.bill;
+      const bill = store.currentBill;
       return {
-        title: bill.name,
+        title: bill ? bill.name : "Bill",
         headerStyle: {
           backgroundColor: Colors.main
         },
@@ -39,23 +32,34 @@ export const BillScreen = createMaterialTopTabNavigator(
             round
             style={{ marginRight: 10 }}
             onPress={() => {
-              if (bill.state === BillState.UNLOCKED) {
-                bill.state = BillState.LOCKED;
-                navigation.navigate("Payments");
-                bill.calculatePayments();
-              } else {
-                bill.state = BillState.UNLOCKED;
-                navigation.navigate("Expenses");
+              if (!bill || bill.state !== BillState.UNLOCKED) {
+                return;
               }
+              bill.state = BillState.LOCKED;
+              navigation.navigate("Payments");
+              bill.calculatePayments();
             }}
           >
             <Icon
-              name={bill.state === BillState.UNLOCKED ? "unlock" : "lock"}
+              name={
+                bill && bill.state === BillState.UNLOCKED ? "unlock" : "lock"
+              }
               style={{ color: "white" }}
             />
           </TouchableOpacity>
         )
       };
+    },
+    tabBarOptions: {
+      style: {
+        backgroundColor: "white"
+      },
+      indicatorStyle: {
+        color: "transparent",
+        backgroundColor: Colors.background
+      },
+      inactiveTintColor: Colors.grey,
+      activeTintColor: "black"
     }
   }
 );

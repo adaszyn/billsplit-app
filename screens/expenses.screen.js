@@ -17,6 +17,10 @@ import { BillState } from "../models/bill";
 import { Header } from "react-navigation";
 import { ParticipantAddForm } from "../components/participant-add-form";
 
+import { Linking as ExpoLinking } from "expo";
+import { Linking } from "react-native";
+import { store } from "../stores/main-store";
+
 const { height, width } = Dimensions.get("window");
 
 const ScreenBLocker = () => (
@@ -35,19 +39,21 @@ export class ExpensesScreen extends React.Component {
       newParticipantNumber: ""
     };
   }
-  onNewParticipant = (participant) => {
-    const bill = this.props.navigation.state.params.bill;
-    bill.addParticipant(participant);    
-  };
-  static navigationOptions = ({ navigation }) => {
-    const bill = navigation.state.params.bill;
-    return {
-      title: bill.name
-    };
+
+
+
+  onNewParticipant = participant => {
+    const bill = store.currentBill;
+    bill.addParticipant(participant);
   };
 
+
   render() {
-    const bill = this.props.navigation.state.params.bill;
+    const bill = store.currentBill;
+
+    if (!bill) {
+      return null;
+    }
     const isLocked = bill.state === BillState.LOCKED;
     return (
       <KeyboardAvoidingView

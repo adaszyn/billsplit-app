@@ -17,7 +17,7 @@ export class QrSwishScreen extends React.Component {
   onPaymentDone = () => {
     const { navigation } = this.props;
     const payment = navigation.getParam("payment");
-    payment.state = PaymentState.DONE;
+    payment.state = PaymentState.PAID;
     navigation.goBack();
   };
   render() {

@@ -1,27 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking as ExpoLinking } from 'expo';
 import { Root } from "native-base";
-import { BillScreen } from "./screens/bill.screen";
-import { ListScreen } from "./screens/list.screen";
-import { CreateBillScreen } from "./screens/create-bill.screen";
-import { QrSwishScreen } from "./screens/qr-swish.screen"
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createAppContainer } from "react-navigation";
+import {AppRoot} from './components/app-root';
 
-const AppNavigator = createStackNavigator({
-  List: {
-    screen: ListScreen
-  },
-  Bill: {
-    screen: BillScreen
-  },
-  CreateBill: {
-    screen: CreateBillScreen
-  },
-  QrSwish: {
-    screen: QrSwishScreen
-  }
-});
-const Navigator = createAppContainer(AppNavigator);
+export const MainNavigator = createAppContainer(AppRoot);
+
 class Application extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +27,7 @@ class Application extends React.Component {
     }
     return (
       <Root>
-        <Navigator />
+        <MainNavigator />
       </Root>
     );
   }
