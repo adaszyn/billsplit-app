@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import {
   Container,
   Content,
@@ -41,8 +41,7 @@ export class PaymentsScreen extends React.Component {
             bordered
             onPress={() => SwishUtil.createPayment(payment.payee.phoneNumber, payment.amount, bill.id, payment.id)}
           >
-            <Icon name="card" />
-            <Text>Pay</Text>
+            <Image style={{height: 13, width: 60, marginLeft: 10, marginRight: 10}} source={require('../images/swish-btn.png')} />
           </Button>
         </Right>
       </ListItem>
