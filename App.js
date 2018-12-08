@@ -27,7 +27,7 @@ class Application extends React.Component {
     }
     return (
       <Root>
-        <MainNavigator uriPrefix={ExpoLinking.makeUrl('/', {})} />
+        <MainNavigator />
       </Root>
     );
   }

@@ -55,7 +55,7 @@ export class AppRoot extends React.Component {
         return;
       }
       if (swishresponse.result === "paid") {
-        payment.state = PaymentState.DONE;
+        payment.state = PaymentState.PAID;
       }
       if (
         swishresponse.result === "notpaid" ||

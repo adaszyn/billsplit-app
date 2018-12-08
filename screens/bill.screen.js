@@ -6,11 +6,7 @@ import { ExpensesScreen } from "./expenses.screen";
 import { Icon } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { BillState } from "../models/bill";
-
-import { Linking as ExpoLinking } from "expo";
-import { Linking } from "react-native";
 import { store } from "../stores/main-store";
-import { PaymentState } from "../models/payment";
 
 export const BillScreen = createMaterialTopTabNavigator(
   {

@@ -6,13 +6,9 @@ import {
   Container,
   Icon,
   Fab,
-  Header,
-  Content,
   List,
   ListItem,
-  Thumbnail,
   Text,
-  Left,
   Body,
   Right,
   Button,
@@ -26,14 +22,18 @@ export class BillList extends React.Component {
     // componentDidMount() {
         // this.props.navigation.navigate("Bill", { bill: this.props.bills[0]})
     // }
+    onBillSelect = (bill) => {
+        const { navigation } = this.props;
+        store.currentBill = bill;
+        navigation.navigate("Bill");
+    }
   renderListItem = bill => {
     const { navigation, removeBill } = this.props;
     return (
       <TouchableOpacity
         key={bill.id}
-        onPress={() => navigation.navigate("Bill", { bill })}
       >
-        <ListItem thumbnail onPress={() => { store.currentBill = bill; navigation.navigate("Bill"); }}>
+        <ListItem thumbnail onPress={() => this.onBillSelect(bill)}>
           <Body>
             <Text>{bill.name}</Text>
             <Text note numberOfLines={1}>

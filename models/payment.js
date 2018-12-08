@@ -3,9 +3,9 @@ import { observable } from "mobx";
 import { generateId } from "../util/number.util";
 
 export const PaymentState = {
-  DONE: "DONE",
-  PENDING: "PENDING",
-  ERROR: "ERROR"
+  PAID: "paid",
+  NOTPAID: "notpaid",
+  UNKNOWN: "unknown"
 };
 export class Payment {
   @observable state = null;
@@ -27,7 +27,7 @@ export class Payment {
     payer,
     payee,
     amount,
-    state = PaymentState.PENDING,
+    state = PaymentState.NOTPAID,
     id = generateId()
   ) {
     if (!(payer instanceof Participant) || !(payee instanceof Participant)) {

@@ -13,7 +13,7 @@ export class Bill {
   static fromJSON(bill) {
     const instance = new Bill(bill.name, bill.type, bill.id);
     instance.participants = bill.participants.map(Participant.fromJSON);
-    instance.billOwner = instance.participants.filter(participant => participant.id === bill.billOwner)[0];
+    instance.billOwner = instance.participants.find(participant => participant.id === bill.billOwner);
     instance.state = bill.state;
     
     instance.payments = bill.payments.map(payment => {
@@ -54,11 +54,11 @@ export class Bill {
   }
   @computed
   get pastPayments() {
-    return this.payments.filter(payment => payment.state === PaymentState.DONE);
+    return this.payments.filter(payment => payment.state === PaymentState.PAID);
   }
   @computed
   get upcomingPayments() {
-    return this.payments.filter(payment => payment.state !== PaymentState.DONE);
+    return this.payments.filter(payment => payment.state !== PaymentState.PAID);
   }
   @computed
   get paymentsByParticipants() {
@@ -73,7 +73,7 @@ export class Bill {
     );
   }
   getPaymentById(paymentId) {
-      return this.payments.filter(payment => payment.id === paymentId)[0];
+      return this.payments.find(payment => payment.id === paymentId);
   }
   addPayment(payerId, payeeId, amount) {
     // TODO: implement
@@ -91,7 +91,7 @@ export class Bill {
   getOwnerPayments() {
     return this.payments.filter(
       payment =>
-        payment.state !== PaymentState.DONE && payment.payer === this.billOwner
+        payment.state !== PaymentState.PAID && payment.payer === this.billOwner
     );
   }
   getParticipantsForTransaction = map => {

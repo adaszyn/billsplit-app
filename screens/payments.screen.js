@@ -140,7 +140,7 @@ export class PaymentsScreen extends React.Component {
             dark
             small
             bordered
-            onPress={() => (payment.state = PaymentState.PENDING)}
+            onPress={() => (payment.state = PaymentState.NOTPAID)}
           >
             <Icon name="undo" />
           </Button>
