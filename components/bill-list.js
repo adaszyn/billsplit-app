@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Alert } from "react-native";
 import { Colors } from "../config/theme.config";
 import {
   Container,
@@ -32,8 +32,20 @@ export class BillList extends React.Component {
     store.currentBill = bill;
     navigation.navigate("Bill");
   };
+  onBillRemove = (bill) => {
+    const { removeBill } = this.props;
+    Alert.alert(
+        'Remove bill?',
+        'Bill will be remove permanently',
+        [
+          {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+          {text: 'OK', onPress: () => removeBill(bill)},
+        ],
+        { cancelable: false }
+      )
+    
+  }
   renderListItem = bill => {
-    const { navigation, removeBill } = this.props;
     return (
       <TouchableOpacity key={bill.id}>
         <ListItem thumbnail onPress={() => this.onBillSelect(bill)}>
@@ -48,9 +60,9 @@ export class BillList extends React.Component {
             <Button
               active
               style={{ backgroundColor: "transparent", elevation: 0 }}
-              onPress={() => removeBill(bill)}
+              onPress={() => this.onBillRemove(bill)}
             >
-              <Icon name="trash" style={{ color: Colors.red }} active />
+              <Icon name="remove-circle" style={{ color: Colors.grey }} active />
             </Button>
           </Right>
         </ListItem>
