@@ -9,4 +9,5 @@ export const Colors = {
   green: "#36802d",
   unlockedList: "#36802d",
   lockedList: "#d9534f",
+  errorRed: "#cc0000",
 };

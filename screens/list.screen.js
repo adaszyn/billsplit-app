@@ -27,7 +27,6 @@ export class ListScreen extends React.Component {
       </TouchableOpacity>
     )
   });
-
   render() {
     const { navigation } = this.props;
     return (
