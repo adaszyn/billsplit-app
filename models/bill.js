@@ -4,6 +4,7 @@ import { Payment, PaymentState } from "./payment";
 import { observable, computed, action } from "mobx";
 import groupBy from "lodash.groupby";
 import { PhoneUser } from "./phone-user";
+import { getPayments } from "../util/obligations.util";
 
 export const BillState = {
   LOCKED: "LOCKED",
@@ -13,28 +14,30 @@ export class Bill {
   static fromJSON(bill) {
     const instance = new Bill(bill.name, bill.type, bill.id);
     instance.participants = bill.participants.map(Participant.fromJSON);
-    instance.billOwner = instance.participants.find(participant => participant.id === bill.billOwner);
+    instance.billOwner = instance.participants.find(
+      participant => participant.id === bill.billOwner
+    );
     instance.state = bill.state;
-    
+
     instance.payments = bill.payments.map(payment => {
-        const payee = instance.participants.find(p => p.id === payment.payee);
-        const payer = instance.participants.find(p => p.id === payment.payer);
-        const { amount, state, id } = payment;
-        return new Payment(payer, payee, amount, state, id);
+      const payee = instance.participants.find(p => p.id === payment.payee);
+      const payer = instance.participants.find(p => p.id === payment.payer);
+      const { amount, state, id } = payment;
+      return new Payment(payer, payee, amount, state, id);
     });
     return instance;
   }
   toJSON() {
-      const { participants, type, name, id, payments, state, billOwner } = this;
-      return {
-        type,
-        name,
-        id,
-        payments,
-        participants,
-        state,
-        billOwner: billOwner.id
-      }
+    const { participants, type, name, id, payments, state, billOwner } = this;
+    return {
+      type,
+      name,
+      id,
+      payments,
+      participants,
+      state,
+      billOwner: billOwner.id
+    };
   }
   @observable payments = [];
   @observable participants = [];
@@ -45,8 +48,8 @@ export class Bill {
     if (!(type === "simple" || type === "shareable")) {
       throw new Error("type of bill should be either simple or shareable");
     }
-    if (type === 'simple') {
-        this.addBillOwner(new PhoneUser());
+    if (type === "simple") {
+      this.addBillOwner(new PhoneUser());
     }
     this.type = type;
     this.name = name;
@@ -73,7 +76,7 @@ export class Bill {
     );
   }
   getPaymentById(paymentId) {
-      return this.payments.find(payment => payment.id === paymentId);
+    return this.payments.find(payment => payment.id === paymentId);
   }
   addPayment(payerId, payeeId, amount) {
     // TODO: implement
@@ -94,32 +97,6 @@ export class Bill {
         payment.state !== PaymentState.PAID && payment.payer === this.billOwner
     );
   }
-  getParticipantsForTransaction = map => {
-    let highest, lowest;
-    for (let participantId of Object.keys(map)) {
-      let entry = map[participantId];
-      if (!lowest || lowest.expenses > entry.expenses) {
-        lowest = {
-          id: participantId,
-          expenses: entry.expenses
-        };
-      }
-      if (!highest || highest.expenses < entry.expenses) {
-        highest = {
-          id: participantId,
-          expenses: entry.expenses
-        };
-      }
-    }
-    return { highest, lowest };
-  };
-  areExpensesEqual(map) {
-    let set = new Set([]);
-    for (let participantId of Object.keys(map)) {
-      set.add(Math.floor(map[participantId].expenses));
-    }
-    return set.size < 2;
-  }
   findParticipantById(id) {
     let participant = this.participants.filter(
       participant => participant.id === id
@@ -128,65 +105,11 @@ export class Bill {
   }
   @action
   removeParticipant(participant) {
-      this.participants = this.participants.filter(collectionItem => collectionItem !== participant);
-  }
-  flattenTransactionsToPayments(transactions) {
-    const paymentsMap = new Map([]);
-    for (let { from, to, value } of transactions) {
-      let key = `${from},${to}`;
-      if (paymentsMap.has(key)) {
-        paymentsMap.set(key, paymentsMap.get(key) + value);
-      } else {
-        paymentsMap.set(key, value);
-      }
-    }
-
-    let payments = [];
-    for ([key, value] of paymentsMap.entries()) {
-      let [from, to] = key.split(",");
-      const payer = this.findParticipantById(from);
-      const payee = this.findParticipantById(to);
-      const payment = new Payment(payer, payee, value);
-      payments.push(payment);
-    }
-    return payments;
+    this.participants = this.participants.filter(
+      collectionItem => collectionItem !== participant
+    );
   }
   calculatePayments() {
-    let payments = [];
-    const map = this.getExpensesMap();
-    const expensesSum = this.getExpensesSum();
-    const sumPerParticipant = expensesSum / this.participants.length;
-    while (!this.areExpensesEqual(map)) {
-      const { highest, lowest } = this.getParticipantsForTransaction(map);
-      const transactionValue = sumPerParticipant - lowest.expenses;
-      payments.push({
-        from: lowest.id,
-        to: highest.id,
-        value: transactionValue
-      });
-      map[highest.id].expenses = map[highest.id].expenses - transactionValue;
-      map[lowest.id].expenses = map[lowest.id].expenses + transactionValue;
-    }
-    this.payments = this.flattenTransactionsToPayments(payments);
-  }
-  getExpensesMap() {
-    let expensesDebtMap = {};
-    for (let participant of this.participants) {
-      let participantExpenses = participant.getExpensesValueSum();
-      expensesDebtMap[participant.id] = {
-        expenses: participantExpenses
-      };
-    }
-
-    return expensesDebtMap;
-  }
-  getExpensesSum() {
-    let expensesSum = 0;
-    for (let participant of this.participants) {
-      let participantExpenses = participant.getExpensesValueSum();
-      expensesSum += participantExpenses;
-    }
-
-    return expensesSum;
+    this.payments = getPayments(this.participants);
   }
 }
