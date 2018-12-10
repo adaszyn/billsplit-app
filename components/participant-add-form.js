@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 import { Button, Icon } from "native-base";
 import { Colors } from "../config/theme.config";
 import { Participant } from "../models/participant";
@@ -39,10 +45,10 @@ export class ParticipantAddForm extends Component {
       nameValid,
       numberValid,
       numberInputTouched: true,
-      nameInputTouched: true,
+      nameInputTouched: true
     });
     if (!nameValid || !numberValid) {
-        return;
+      return;
     }
 
     const participant = new Participant(
@@ -80,6 +86,7 @@ export class ParticipantAddForm extends Component {
             Wrong format
           </Text>
           <TextInput
+            style={styles.textInput}
             onFocus={this.onNameInputFocus}
             ref={input => (this.nameInput = input)}
             placeholder="New participant"
@@ -99,6 +106,7 @@ export class ParticipantAddForm extends Component {
           </Text>
           <TextInput
             onFocus={this.onNumberInputFocus}
+            style={styles.textInput}
             ref={input => (this.numberInput = input)}
             placeholder="Phone Number"
             value={this.state.newParticipantNumber}
@@ -108,8 +116,11 @@ export class ParticipantAddForm extends Component {
           />
         </View>
 
-        <TouchableOpacity onPress={this.onSubmit} style={{marginTop: 6}}>
-          <Icon name="checkmark" style={{ color: canSubmit ? Colors.main : Colors.grey }} />
+        <TouchableOpacity onPress={this.onSubmit} style={{ marginTop: 6 }}>
+          <Icon
+            name="checkmark"
+            style={{ color: canSubmit ? Colors.main : Colors.grey }}
+          />
         </TouchableOpacity>
       </View>
     );
@@ -132,5 +143,8 @@ const styles = StyleSheet.create({
     color: Colors.errorRed,
     marginTop: 0,
     marginBottom: -2
+  },
+  textInput: {
+    fontFamily: "opensans-light"
   }
 });

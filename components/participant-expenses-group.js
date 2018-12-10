@@ -34,7 +34,7 @@ export class ParticipantExpensesGroup extends React.Component {
     }, 1);
   };
   renderSeparator = () => {
-    const { isOwner, participant, removeParticipant } = this.props;
+    const { isOwner, participant, removeParticipant, isEditable } = this.props;
     return (
       <Separator bordered>
         <View
@@ -44,7 +44,7 @@ export class ParticipantExpensesGroup extends React.Component {
           }}
         >
           <Text>{participant.name.toUpperCase()}</Text>
-          {!isOwner && (
+          {!isOwner && isEditable && (
             <TouchableOpacity onPress={removeParticipant}>
               <Icon
                 fontSize={18}
@@ -58,15 +58,15 @@ export class ParticipantExpensesGroup extends React.Component {
     );
   };
   render() {
-    const { participant } = this.props;
+    const { participant, isEditable } = this.props;
     return (
       <Content>
         {this.renderSeparator()}
         <ExpensesTable expenses={participant.expenses} />
-        <ExpenseAddForm
+        { isEditable && <ExpenseAddForm
           ref={ref => (this.expensesAddForm = ref)}
           onSubmit={this.onExpensesFormSubmit}
-        />
+        /> }
       </Content>
     );
   }

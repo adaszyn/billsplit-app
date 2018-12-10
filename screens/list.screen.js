@@ -5,25 +5,20 @@ import { observer } from "mobx-react";
 import { Icon } from "native-base";
 import { store } from "../stores/main-store";
 import { Colors } from "../config/theme.config";
+import { getBaseNavigationConfig } from "../util/navigation.util";
 
 @observer
 export class ListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
+    ...getBaseNavigationConfig("Your bills"),
     title: "BillSplit",
-    headerStyle: {
-      backgroundColor: Colors.main
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold"
-    },
     headerRight: (
       <TouchableOpacity
         round
         style={{ marginRight: 10 }}
         onPress={() => navigation.navigate("Settings", {})}
       >
-        <Icon name="settings" style={{ color: "white" }} />
+        <Icon name="settings" style={{ color: Colors.main }} />
       </TouchableOpacity>
     )
   });

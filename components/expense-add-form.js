@@ -86,9 +86,9 @@ export class ExpenseAddForm extends React.Component {
             Wrong format
           </Text>
           <TextInput
+            style={styles.textInput}
             ref={input => (this.nameInput = input)}
             underlineColorAndroid="transparent"
-            style={[styles.nameInput]}
             value={this.state.name}
             onChangeText={this.onNameChange}
             onSubmitEditing={this.onNameSubmitEditing}
@@ -106,9 +106,9 @@ export class ExpenseAddForm extends React.Component {
             Wrong format
           </Text>
           <TextInput
+            style={styles.textInput}
             ref={input => (this.amountInput = input)}
             underlineColorAndroid="transparent"
-            style={[styles.valueInput]}
             onChangeText={this.onAmountChange}
             placeholder={"Price"}
             value={this.state.amount}
@@ -145,5 +145,8 @@ const styles = StyleSheet.create({
     color: Colors.errorRed,
     marginTop: 0,
     marginBottom: -2
+  },
+  textInput: {
+    fontFamily: "opensans-light"
   }
 });

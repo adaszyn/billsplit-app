@@ -10,15 +10,10 @@ import {
 } from "react-native";
 import { ParticipantExpensesGroup } from "../components/participant-expenses-group";
 import { Content, Icon, Container, Button } from "native-base";
-import { Colors } from "../config/theme.config";
-import { Participant } from "../models/participant";
 import { observer } from "mobx-react";
 import { BillState } from "../models/bill";
 import { Header } from "react-navigation";
 import { ParticipantAddForm } from "../components/participant-add-form";
-
-import { Linking as ExpoLinking } from "expo";
-import { Linking } from "react-native";
 import { store } from "../stores/main-store";
 
 const { height, width } = Dimensions.get("window");
@@ -40,13 +35,10 @@ export class ExpensesScreen extends React.Component {
     };
   }
 
-
-
   onNewParticipant = participant => {
     const bill = store.currentBill;
     bill.addParticipant(participant);
   };
-
 
   render() {
     const bill = store.currentBill;
@@ -54,7 +46,7 @@ export class ExpensesScreen extends React.Component {
     if (!bill) {
       return null;
     }
-    const isLocked = bill.state === BillState.LOCKED;
+    const isEditable = bill.state !== BillState.LOCKED;
     return (
       <KeyboardAvoidingView
         keyboardVerticalOffset={Header.HEIGHT + 80}
@@ -63,11 +55,12 @@ export class ExpensesScreen extends React.Component {
       >
         <Container key="container">
           <Content style={{ flex: 1 }}>
-            <ParticipantAddForm onSubmit={this.onNewParticipant} />
+            { isEditable && <ParticipantAddForm onSubmit={this.onNewParticipant} />}
             <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}>
               {bill.participants.map(participant => (
                 <ParticipantExpensesGroup
                   key={participant.id}
+                  isEditable={isEditable}
                   isOwner={participant === bill.billOwner}
                   removeParticipant={() => bill.removeParticipant(participant)}
                   participant={participant}
@@ -76,7 +69,6 @@ export class ExpensesScreen extends React.Component {
             </ScrollView>
           </Content>
         </Container>
-        {isLocked && <ScreenBLocker />}
       </KeyboardAvoidingView>
     );
   }
