@@ -1,18 +1,26 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Button, Icon, Text } from "native-base";
 
 import { Colors } from "../config/theme.config";
 import { PaymentState } from "../models/payment";
+import { getBaseNavigationConfig } from "../util/navigation.util";
+import { QRCode } from "react-native-custom-qr-codes";
+import { RoundedButton } from "../components/rounded-button";
 
 export class QrSwishScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: `QR for ${navigation.getParam("payment").payer.name}`,
-
-    headerStyle: {
-      backgroundColor: Colors.main
-    },
-    headerTintColor: "#fff"
+    ...getBaseNavigationConfig(
+      `QR for ${navigation.getParam("payment").payer.name}`
+    ),
+    headerLeft: (
+      <TouchableOpacity
+        style={{ marginLeft: 10 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="arrow-back" style={{ color: Colors.main }} />
+      </TouchableOpacity>
+    )
   });
   onPaymentDone = () => {
     const { navigation } = this.props;
@@ -24,14 +32,18 @@ export class QrSwishScreen extends React.Component {
     const payment = this.props.navigation.getParam("payment");
     return (
       <View style={styles.container}>
-        <Image
-          source={{ uri: payment.qrUri() }}
-          style={{ width: 300, height: 300 }}
+        <QRCode
+          size={300}
+          content={payment.getQRPayload()}
+          linearGradient={[Colors.main, Colors.secondary]}
+          codeStyle="circle"
+          logo={require("../images/swish_logo.png")}
         />
-        <Button block bordered success iconLeft onPress={this.onPaymentDone}>
-          <Icon name="checkmark" />
-          <Text>Mark as done</Text>
-        </Button>
+        <RoundedButton
+          style={{ marginTop: 20 }}
+          onPress={this.onPaymentDone}
+          text="Mark as done"
+        />
       </View>
     );
   }

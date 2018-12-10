@@ -143,11 +143,13 @@ export class PaymentsScreen extends React.Component {
         key={`past-payment-${payment.payer.name}-${payment.payee.name}`}
       >
         <Body>
-          <Text>
-            {payment.payer.name} → {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>
+              {payment.payer.name} → {payment.payee.name} -{" "}
+              <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            </Text>
             <CurrencyBubble />
-          </Text>
+          </View>
         </Body>
         <Right>
           <Button

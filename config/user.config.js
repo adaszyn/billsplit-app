@@ -1,5 +1,5 @@
 export const UserConfig = {
-  phoneNumber: "+46 00 00 00",
+  phoneNumber: "0730694740",
   name: "me",
   id: "0"
 };
