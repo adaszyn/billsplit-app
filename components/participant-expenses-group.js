@@ -55,7 +55,7 @@ export class ParticipantExpensesGroup extends React.Component {
     return (
       <Content>
         {this.renderSeparator()}
-        <ExpensesTable expenses={participant.expenses} />
+        <ExpensesTable isEditable={isEditable} expenses={participant.expenses} />
         { isEditable && <ExpenseAddForm
           ref={ref => (this.expensesAddForm = ref)}
           onSubmit={this.onExpensesFormSubmit}
@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: "karla-bold",
-    color: Colors.darkgrey
+    color: Colors.grey
   }
 });

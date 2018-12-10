@@ -18,6 +18,7 @@ import { PaymentState } from "../models/payment";
 import { store } from "../stores/main-store";
 import { SwishUtil } from "../util/swish.util";
 import { Colors } from "../config/theme.config";
+import { CurrencyBubble } from "../components/currency-bubble";
 
 @observer
 export class PaymentsScreen extends React.Component {
@@ -26,10 +27,13 @@ export class PaymentsScreen extends React.Component {
     return (
       <ListItem icon key={`${payment.payer.id}-${payment.payee.id}`}>
         <Body>
-          <Text>
-            For {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>
+              For {payment.payee.name} -{" "}
+              <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            </Text>
+            <CurrencyBubble />
+          </View>
         </Body>
         <Right>
           <Button
@@ -83,10 +87,13 @@ export class PaymentsScreen extends React.Component {
     return (
       <ListItem icon key={`payment-${payment.payee.id}`}>
         <Body>
-          <Text>
-            For {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>
+              For {payment.payee.name} -{" "}
+              <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            </Text>
+            <CurrencyBubble />
+          </View>
         </Body>
         <Right>
           <Button
@@ -138,7 +145,8 @@ export class PaymentsScreen extends React.Component {
         <Body>
           <Text>
             {payment.payer.name} → {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
+            <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            <CurrencyBubble />
           </Text>
         </Body>
         <Right>
@@ -167,7 +175,7 @@ export class PaymentsScreen extends React.Component {
           <List>
             {this.renderOwnPayments()}
             {this.renderParticipantsPayments()}
-            <Separator bordered style={{backgroundColor: Colors.lightgrey}}>
+            <Separator bordered style={{ backgroundColor: Colors.lightgrey }}>
               <Text style={styles.separatorText}>PAST PAYMENTS</Text>
             </Separator>
             {this.renderPastPayments()}
@@ -181,7 +189,7 @@ export class PaymentsScreen extends React.Component {
 const styles = {
   separatorText: {
     fontFamily: "karla-bold",
-    color: Colors.darkgrey
+    color: Colors.grey
   },
   headerText: {
     fontFamily: "karla-bold",

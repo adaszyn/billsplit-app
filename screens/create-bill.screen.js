@@ -6,35 +6,43 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from "react-native";
-import { Header } from 'react-navigation';
+import { Header } from "react-navigation";
 import { store } from "../stores/main-store";
 
-import { Text, Button, Container, Card, CardItem, Body, Icon } from "native-base";
+import {
+  Text,
+  Button,
+  Container,
+  Card,
+  CardItem,
+  Body,
+  Icon
+} from "native-base";
 import { Colors } from "../config/theme.config";
 import { Bill } from "../models/bill";
-import {getBaseNavigationConfig} from '../util/navigation.util';
-import {RoundedButton} from '../components/rounded-button';
-import {TextInputAnimatedPlaceholder} from '../components/text-input-animated';
+import { getBaseNavigationConfig } from "../util/navigation.util";
+import { RoundedButton } from "../components/rounded-button";
+import { TextInputAnimatedPlaceholder } from "../components/text-input-animated";
 
 const PLACEHOLDERS = [
-    "Shopping with John...",
-    "Wednesday hangout...",
-    "Trip to Alaska..."
-]
+  "Shopping with John...",
+  "Wednesday hangout...",
+  "Trip to Alaska..."
+];
 const getRandomPlaceholder = () => {
-    return PLACEHOLDERS[Math.floor(Math.random()*PLACEHOLDERS.length)];
-}
+  return PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)];
+};
 export class CreateBillScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({
-      ...getBaseNavigationConfig("New bill"),
-      headerLeft: (
-        <TouchableOpacity
-          style={{ marginLeft: 10 }}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon name="arrow-back" style={{ color: Colors.main }} />
-        </TouchableOpacity>
-      )
+  static navigationOptions = ({ navigation }) => ({
+    ...getBaseNavigationConfig("New bill"),
+    headerLeft: (
+      <TouchableOpacity
+        style={{ marginLeft: 10 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="arrow-back" style={{ color: Colors.main }} />
+      </TouchableOpacity>
+    )
   });
 
   state = { billName: "" };
@@ -66,7 +74,11 @@ export class CreateBillScreen extends React.Component {
                   value={this.state.billName}
                 />
                 <View style={{ flexGrow: 1 }} />
-                <RoundedButton style={{alignSelf: 'center'}} onPress={this.onSubmit} text="Save" />
+                <RoundedButton
+                  style={{ alignSelf: "center" }}
+                  onPress={this.onSubmit}
+                  text="Save"
+                />
               </Body>
             </CardItem>
           </View>
@@ -81,18 +93,18 @@ const styles = StyleSheet.create({
     color: Colors.darkgrey,
     marginBottom: 15,
     fontWeight: "600",
+    textAlign: "center",
     fontSize: 17,
-    fontFamily: "karla",
+    fontFamily: "karla"
   },
   input: {
-      marginTop: 20,
-      textAlign: 'center',
+    marginTop: 20,
+    textAlign: "center",
     alignSelf: "stretch",
     height: 40,
     fontSize: 20,
     borderBottomWidth: 1,
     borderColor: Colors.grey,
-    fontFamily: "karla",
-
+    fontFamily: "karla"
   }
 });
