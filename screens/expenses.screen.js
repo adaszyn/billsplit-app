@@ -57,7 +57,7 @@ export class ExpensesScreen extends React.Component {
     const isLocked = bill.state === BillState.LOCKED;
     return (
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Header.HEIGHT + 100}
+        keyboardVerticalOffset={Header.HEIGHT + 80}
         style={{ flex: 1 }}
         behavior="padding"
       >

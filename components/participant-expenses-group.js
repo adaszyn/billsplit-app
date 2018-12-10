@@ -14,6 +14,7 @@ import {
   Icon,
   Left
 } from "native-base";
+import { ExpenseAddForm } from "./expense-add-form";
 export class ParticipantExpensesGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -23,19 +24,14 @@ export class ParticipantExpensesGroup extends React.Component {
       itemName: null,
       itemValue: null
     };
+    this.expensesAddForm = null;
   }
-  onNameSubmitEditing = () => {
-    this.priceInput.focus();
-  };
-  onPriceSubmitEditing = () => {
+  onExpensesFormSubmit = ({ name, amount }) => {
     const { participant } = this.props;
-    const { itemName, itemValue } = this.state;
-    participant.addExpense(itemName, Number(itemValue));
-    this.setState({
-      itemName: null,
-      itemValue: null
-    });
-    this.nameInput.focus();
+    participant.addExpense(name, amount);
+    setTimeout(() => {
+      this.expensesAddForm.nameInput.focus();
+    }, 1);
   };
   renderSeparator = () => {
     const { isOwner, participant, removeParticipant } = this.props;
@@ -67,31 +63,10 @@ export class ParticipantExpensesGroup extends React.Component {
       <Content>
         {this.renderSeparator()}
         <ExpensesTable expenses={participant.expenses} />
-        <ListItem>
-          <Left>
-            <TextInput
-              ref={input => (this.nameInput = input)}
-              underlineColorAndroid="transparent"
-              style={[styles.nameInput]}
-              value={this.state.itemName}
-              onChangeText={itemName => this.setState({ itemName })}
-              onSubmitEditing={this.onNameSubmitEditing}
-              placeholder={"Purchased item"}
-            />
-          </Left>
-          <Right>
-            <TextInput
-              ref={input => (this.priceInput = input)}
-              underlineColorAndroid="transparent"
-              style={[styles.valueInput]}
-              onChangeText={itemValue => this.setState({ itemValue })}
-              placeholder={"Price"}
-              value={this.state.itemValue}
-              onSubmitEditing={this.onPriceSubmitEditing}
-              keyboardType={"number-pad"}
-            />
-          </Right>
-        </ListItem>
+        <ExpenseAddForm
+          ref={ref => (this.expensesAddForm = ref)}
+          onSubmit={this.onExpensesFormSubmit}
+        />
       </Content>
     );
   }
