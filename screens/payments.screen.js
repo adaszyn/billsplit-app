@@ -1,11 +1,10 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, Text } from "react-native";
 import {
   Container,
   Content,
   List,
   ListItem,
-  Text,
   Right,
   Separator,
   Body,
@@ -18,7 +17,8 @@ import { PaymentState } from "../models/payment";
 import { Linking as ExpoLinking } from "expo";
 import { Linking } from "react-native";
 import { store } from "../stores/main-store";
-import {SwishUtil} from '../util/swish.util';
+import { SwishUtil } from "../util/swish.util";
+import { Colors } from "../config/theme.config";
 
 @observer
 export class PaymentsScreen extends React.Component {
@@ -39,9 +39,19 @@ export class PaymentsScreen extends React.Component {
             success
             small
             bordered
-            onPress={() => SwishUtil.createPayment(payment.payee.phoneNumber, payment.amount, bill.id, payment.id)}
+            onPress={() =>
+              SwishUtil.createPayment(
+                payment.payee.phoneNumber,
+                payment.amount,
+                bill.id,
+                payment.id
+              )
+            }
           >
-            <Image style={{height: 13, width: 60, marginLeft: 10, marginRight: 10}} source={require('../images/swish-btn.png')} />
+            <Image
+              style={{ height: 13, width: 60, marginLeft: 10, marginRight: 10 }}
+              source={require("../images/swish-btn.png")}
+            />
           </Button>
         </Right>
       </ListItem>
@@ -54,7 +64,7 @@ export class PaymentsScreen extends React.Component {
         itemHeader
         style={{ paddingBottom: 0 }}
       >
-        <Text>{header}</Text>
+        <Text style={styles.headerText}>{header}</Text>
       </ListItem>
     );
   };
@@ -156,11 +166,10 @@ export class PaymentsScreen extends React.Component {
       <Container>
         <Content>
           <List>
-            
             {this.renderOwnPayments()}
             {this.renderParticipantsPayments()}
             <Separator bordered>
-              <Text>PAST PAYMENTS</Text>
+              <Text style={styles.separatorText}>PAST PAYMENTS</Text>
             </Separator>
             {this.renderPastPayments()}
           </List>
@@ -169,3 +178,14 @@ export class PaymentsScreen extends React.Component {
     );
   }
 }
+
+const styles = {
+  separatorText: {
+    fontFamily: "karla-bold",
+    color: Colors.grey
+  },
+  headerText: {
+    fontFamily: "karla-bold",
+    color: Colors.grey
+  }
+};

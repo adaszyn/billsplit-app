@@ -15,6 +15,7 @@ import {
   Left
 } from "native-base";
 import { ExpenseAddForm } from "./expense-add-form";
+import {Colors} from '../config/theme.config';
 export class ParticipantExpensesGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +44,7 @@ export class ParticipantExpensesGroup extends React.Component {
             ...styles.separatorStyles
           }}
         >
-          <Text>{participant.name.toUpperCase()}</Text>
+          <Text style={styles.headerText}>{participant.name.toUpperCase()}</Text>
           {!isOwner && isEditable && (
             <TouchableOpacity onPress={removeParticipant}>
               <Icon
@@ -85,5 +86,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     marginRight: 10
+  },
+  headerText: {
+    fontFamily: "karla-bold",
+    color: Colors.darkgrey
   }
 });

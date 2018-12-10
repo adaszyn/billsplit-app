@@ -55,7 +55,9 @@ export class ExpensesScreen extends React.Component {
       >
         <Container key="container">
           <Content style={{ flex: 1 }}>
-            { isEditable && <ParticipantAddForm onSubmit={this.onNewParticipant} />}
+            {isEditable && (
+              <ParticipantAddForm onSubmit={this.onNewParticipant} />
+            )}
             <ScrollView contentContainerStyle={{ flex: 1 }} style={{ flex: 1 }}>
               {bill.participants.map(participant => (
                 <ParticipantExpensesGroup

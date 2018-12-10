@@ -24,11 +24,11 @@ export class ExpensesTable extends Component {
         style={{ paddingRight: 0, marginRigth: 0 }}
       >
         <Left>
-          <Text>{name}</Text>
+          <Text style={styles.expenseText}>{name}</Text>
         </Left>
         <Right>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>{value} SEK</Text>
+            <Text style={styles.expenseText}>{value} SEK</Text>
 
             <Button
               onPress={() => this.removeExpense(expense)}
@@ -62,5 +62,9 @@ export class ExpensesTable extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row"
+  },
+  expenseText: {
+    fontFamily: "opensans",
+    color: "#262626"
   }
 });
