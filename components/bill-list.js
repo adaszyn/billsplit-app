@@ -93,7 +93,6 @@ export class BillList extends React.Component {
         onPress={() => {
           const buttons = [
             { text: "Simple bill", icon: "md-person" },
-            { text: "Shareable bill", icon: "md-people" },
             { text: "Cancel", icon: "md-close" }
           ];
           ActionSheet.show(
@@ -105,8 +104,6 @@ export class BillList extends React.Component {
             buttonIndex => {
               if (buttonIndex === 0) {
                 navigation.navigate("CreateBill", { type: "simple" });
-              } else if (buttonIndex === 1) {
-                console.warn("Not implemented yet");
               }
             }
           );
