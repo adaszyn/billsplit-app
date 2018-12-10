@@ -9,13 +9,12 @@ import {
   Separator,
   Body,
   Button,
+  Text as NativeBaseText,
   Icon
 } from "native-base";
 import { observer } from "mobx-react";
 import { PaymentState } from "../models/payment";
 
-import { Linking as ExpoLinking } from "expo";
-import { Linking } from "react-native";
 import { store } from "../stores/main-store";
 import { SwishUtil } from "../util/swish.util";
 import { Colors } from "../config/theme.config";
@@ -101,7 +100,7 @@ export class PaymentsScreen extends React.Component {
             }
           >
             <Icon name="qr-scanner" />
-            <Text>QR</Text>
+            <NativeBaseText>QR</NativeBaseText>
           </Button>
         </Right>
       </ListItem>
@@ -168,7 +167,7 @@ export class PaymentsScreen extends React.Component {
           <List>
             {this.renderOwnPayments()}
             {this.renderParticipantsPayments()}
-            <Separator bordered>
+            <Separator bordered style={{backgroundColor: Colors.lightgrey}}>
               <Text style={styles.separatorText}>PAST PAYMENTS</Text>
             </Separator>
             {this.renderPastPayments()}
@@ -182,7 +181,7 @@ export class PaymentsScreen extends React.Component {
 const styles = {
   separatorText: {
     fontFamily: "karla-bold",
-    color: Colors.grey
+    color: Colors.darkgrey
   },
   headerText: {
     fontFamily: "karla-bold",

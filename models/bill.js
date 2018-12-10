@@ -75,6 +75,14 @@ export class Bill {
       0
     );
   }
+  @computed
+  get sumOfExpenses() {
+    return this.participants.reduce(
+      (sum, participant) =>
+        sum + participant.getExpensesValueSum(),
+      0
+    );
+  }
   getPaymentById(paymentId) {
     return this.payments.find(payment => payment.id === paymentId);
   }

@@ -29,27 +29,6 @@ export const BillScreen = createMaterialTopTabNavigator(
           >
             <Icon name="arrow-back" style={{ color: Colors.main }} />
           </TouchableOpacity>
-        ),
-        headerRight: (
-          <TouchableOpacity
-            round
-            style={{ marginRight: 10 }}
-            onPress={() => {
-              if (!bill || bill.state !== BillState.UNLOCKED) {
-                return;
-              }
-              bill.state = BillState.LOCKED;
-              navigation.navigate("Payments");
-              bill.calculatePayments();
-            }}
-          >
-            <Icon
-              name={
-                bill && bill.state === BillState.UNLOCKED ? "unlock" : "lock"
-              }
-              style={{ color: Colors.main }}
-            />
-          </TouchableOpacity>
         )
       };
     },

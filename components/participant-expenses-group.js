@@ -1,18 +1,10 @@
 import React from "react";
-import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 import { ExpensesTable } from "./expenses-table";
 import {
   Content,
-  List,
-  ListItem,
-  Button,
-  Text,
   Separator,
-  Right,
-  Footer,
-  FooterTab,
   Icon,
-  Left
 } from "native-base";
 import { ExpenseAddForm } from "./expense-add-form";
 import {Colors} from '../config/theme.config';
@@ -37,7 +29,7 @@ export class ParticipantExpensesGroup extends React.Component {
   renderSeparator = () => {
     const { isOwner, participant, removeParticipant, isEditable } = this.props;
     return (
-      <Separator bordered>
+      <Separator bordered style={{backgroundColor: Colors.lightgrey}}>
         <View
           style={{
             justifyContent: isOwner ? "flex-start" : "space-between",
