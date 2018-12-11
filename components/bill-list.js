@@ -5,7 +5,8 @@ import {
   View,
   Alert,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Image
 } from "react-native";
 import { Colors } from "../config/theme.config";
 import {
@@ -22,12 +23,14 @@ import { store } from "../stores/main-store";
 import { BillState } from "../models/bill";
 import { RoundedButton, RoundedButtonThemes } from "./rounded-button";
 import { LinearGradient } from "expo";
+import billIcon from '../assets/bill-icon.png';
 
 const { width } = Dimensions.get("window");
 
 const EmptyListPlaceholder = () => (
   <View style={styles.placeholderContainer}>
-    <Icon name="pricetag" style={styles.placeholderIcon} active />
+    <Image style={styles.placeholderIcon} source={billIcon} />
+    {/* <Icon name="pricetag" style={styles.placeholderIcon} active /> */}
     <Text style={styles.placeholderText}>No bills</Text>
   </View>
 );
@@ -145,10 +148,13 @@ const styles = StyleSheet.create({
     alignContent: "center"
   },
   placeholderIcon: {
-    fontSize: 80,
-    color: Colors.grey,
-    padding: 0,
-    textAlign: "center"
+    // fontSize: 80,
+    // color: Colors.grey,
+    // padding: 0,
+    // textAlign: "center"
+    height: 72,
+    width: 60,
+    alignSelf: 'center',
   },
   stripe: {
     width: 4,
@@ -156,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   billName: {
-    fontFamily: "opensans-bold"
+    fontFamily: "karla"
   },
   billDescription: {
     fontFamily: "opensans-light"
