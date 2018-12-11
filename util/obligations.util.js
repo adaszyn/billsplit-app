@@ -58,7 +58,7 @@ function flattenTransactionsToPayments(transactions, participants) {
     let [from, to] = key.split(",");
     const payer = findParticipantById(participants, from);
     const payee = findParticipantById(participants, to);
-    const payment = new Payment(payer, payee, value);
+    const payment = new Payment(payer, payee, Math.ceil(value));
     payments.push(payment);
   }
   return payments;
