@@ -33,10 +33,6 @@ const EmptyListPlaceholder = () => (
 );
 @observer
 export class BillList extends React.Component {
-  componentDidMount() {
-      store.currentBill = store.list.bills[2];
-  this.props.navigation.navigate("Bill")
-  }
   onBillSelect = bill => {
     const { navigation } = this.props;
     store.currentBill = bill;
