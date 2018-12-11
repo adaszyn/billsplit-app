@@ -1,20 +1,13 @@
 import React from "react";
-import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 import { ExpensesTable } from "./expenses-table";
 import {
   Content,
-  List,
-  ListItem,
-  Button,
-  Text,
   Separator,
-  Right,
-  Footer,
-  FooterTab,
   Icon,
-  Left
 } from "native-base";
 import { ExpenseAddForm } from "./expense-add-form";
+import {Colors} from '../config/theme.config';
 export class ParticipantExpensesGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -34,17 +27,17 @@ export class ParticipantExpensesGroup extends React.Component {
     }, 1);
   };
   renderSeparator = () => {
-    const { isOwner, participant, removeParticipant } = this.props;
+    const { isOwner, participant, removeParticipant, isEditable } = this.props;
     return (
-      <Separator bordered>
+      <Separator bordered style={{backgroundColor: Colors.lightgrey}}>
         <View
           style={{
             justifyContent: isOwner ? "flex-start" : "space-between",
             ...styles.separatorStyles
           }}
         >
-          <Text>{participant.name.toUpperCase()}</Text>
-          {!isOwner && (
+          <Text style={styles.headerText}>{participant.name.toUpperCase()}</Text>
+          {!isOwner && isEditable && (
             <TouchableOpacity onPress={removeParticipant}>
               <Icon
                 fontSize={18}
@@ -58,15 +51,15 @@ export class ParticipantExpensesGroup extends React.Component {
     );
   };
   render() {
-    const { participant } = this.props;
+    const { participant, isEditable } = this.props;
     return (
       <Content>
         {this.renderSeparator()}
-        <ExpensesTable expenses={participant.expenses} />
-        <ExpenseAddForm
+        <ExpensesTable isEditable={isEditable} expenses={participant.expenses} />
+        { isEditable && <ExpenseAddForm
           ref={ref => (this.expensesAddForm = ref)}
           onSubmit={this.onExpensesFormSubmit}
-        />
+        /> }
       </Content>
     );
   }
@@ -85,5 +78,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     marginRight: 10
+  },
+  headerText: {
+    fontFamily: "karla-bold",
+    color: Colors.grey
   }
 });

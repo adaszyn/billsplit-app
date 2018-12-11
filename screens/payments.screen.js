@@ -1,24 +1,24 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, Text } from "react-native";
 import {
   Container,
   Content,
   List,
   ListItem,
-  Text,
   Right,
   Separator,
   Body,
   Button,
+  Text as NativeBaseText,
   Icon
 } from "native-base";
 import { observer } from "mobx-react";
 import { PaymentState } from "../models/payment";
 
-import { Linking as ExpoLinking } from "expo";
-import { Linking } from "react-native";
 import { store } from "../stores/main-store";
-import {SwishUtil} from '../util/swish.util';
+import { SwishUtil } from "../util/swish.util";
+import { Colors } from "../config/theme.config";
+import { CurrencyBubble } from "../components/currency-bubble";
 
 @observer
 export class PaymentsScreen extends React.Component {
@@ -27,10 +27,13 @@ export class PaymentsScreen extends React.Component {
     return (
       <ListItem icon key={`${payment.payer.id}-${payment.payee.id}`}>
         <Body>
-          <Text>
-            For {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>
+              For {payment.payee.name} -{" "}
+              <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            </Text>
+            <CurrencyBubble />
+          </View>
         </Body>
         <Right>
           <Button
@@ -39,9 +42,19 @@ export class PaymentsScreen extends React.Component {
             success
             small
             bordered
-            onPress={() => SwishUtil.createPayment(payment.payee.phoneNumber, payment.amount, bill.id, payment.id)}
+            onPress={() =>
+              SwishUtil.createPayment(
+                payment.payee.phoneNumber,
+                payment.amount,
+                bill.id,
+                payment.id
+              )
+            }
           >
-            <Image style={{height: 13, width: 60, marginLeft: 10, marginRight: 10}} source={require('../images/swish-btn.png')} />
+            <Image
+              style={{ height: 13, width: 60, marginLeft: 10, marginRight: 10 }}
+              source={require("../images/swish-btn.png")}
+            />
           </Button>
         </Right>
       </ListItem>
@@ -54,7 +67,7 @@ export class PaymentsScreen extends React.Component {
         itemHeader
         style={{ paddingBottom: 0 }}
       >
-        <Text>{header}</Text>
+        <Text style={styles.headerText}>{header}</Text>
       </ListItem>
     );
   };
@@ -74,10 +87,13 @@ export class PaymentsScreen extends React.Component {
     return (
       <ListItem icon key={`payment-${payment.payee.id}`}>
         <Body>
-          <Text>
-            For {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>
+              For {payment.payee.name} -{" "}
+              <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            </Text>
+            <CurrencyBubble />
+          </View>
         </Body>
         <Right>
           <Button
@@ -91,7 +107,7 @@ export class PaymentsScreen extends React.Component {
             }
           >
             <Icon name="qr-scanner" />
-            <Text>QR</Text>
+            <NativeBaseText>QR</NativeBaseText>
           </Button>
         </Right>
       </ListItem>
@@ -127,10 +143,13 @@ export class PaymentsScreen extends React.Component {
         key={`past-payment-${payment.payer.name}-${payment.payee.name}`}
       >
         <Body>
-          <Text>
-            {payment.payer.name} → {payment.payee.name} -{" "}
-            <Text style={{ fontWeight: "700" }}>{payment.amount} SEK</Text>
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text>
+              {payment.payer.name} → {payment.payee.name} -{" "}
+              <Text style={{ fontWeight: "700" }}>{payment.amount}</Text>
+            </Text>
+            <CurrencyBubble />
+          </View>
         </Body>
         <Right>
           <Button
@@ -156,11 +175,10 @@ export class PaymentsScreen extends React.Component {
       <Container>
         <Content>
           <List>
-            
             {this.renderOwnPayments()}
             {this.renderParticipantsPayments()}
-            <Separator bordered>
-              <Text>PAST PAYMENTS</Text>
+            <Separator bordered style={{ backgroundColor: Colors.lightgrey }}>
+              <Text style={styles.separatorText}>PAST PAYMENTS</Text>
             </Separator>
             {this.renderPastPayments()}
           </List>
@@ -169,3 +187,14 @@ export class PaymentsScreen extends React.Component {
     );
   }
 }
+
+const styles = {
+  separatorText: {
+    fontFamily: "karla-bold",
+    color: Colors.grey
+  },
+  headerText: {
+    fontFamily: "karla-bold",
+    color: Colors.grey
+  }
+};

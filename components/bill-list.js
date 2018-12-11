@@ -1,22 +1,29 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View, Alert } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Alert,
+  ScrollView,
+  Dimensions
+} from "react-native";
 import { Colors } from "../config/theme.config";
 import {
   Container,
   Icon,
-  Fab,
-  List,
   ListItem,
   Text,
   Body,
   Right,
-  Button,
-  ActionSheet,
   Left
 } from "native-base";
 import { observer } from "mobx-react";
 import { store } from "../stores/main-store";
 import { BillState } from "../models/bill";
+import { RoundedButton } from "./rounded-button";
+import { LinearGradient } from "expo";
+
+const { width } = Dimensions.get("window");
 
 const EmptyListPlaceholder = () => (
   <View style={styles.placeholderContainer}>
@@ -26,9 +33,6 @@ const EmptyListPlaceholder = () => (
 );
 @observer
 export class BillList extends React.Component {
-  // componentDidMount() {
-  // this.props.navigation.navigate("Bill", { bill: this.props.bills[0]})
-  // }
   onBillSelect = bill => {
     const { navigation } = this.props;
     store.currentBill = bill;
@@ -50,67 +54,48 @@ export class BillList extends React.Component {
     const stripeColor =
       bill.state === BillState.LOCKED ? Colors.lockedList : Colors.unlockedList;
     return (
-      <TouchableOpacity key={bill.id}>
+      <TouchableOpacity key={bill.id + Math.random()}>
         <ListItem thumbnail onPress={() => this.onBillSelect(bill)}>
           <Left>
-            <View
-              style={{...styles.stripe, backgroundColor: stripeColor}}
-            />
+            <View style={{ ...styles.stripe, backgroundColor: stripeColor }} />
           </Left>
           <Body>
-            <Text>{bill.name}</Text>
-            <Text note numberOfLines={1}>
+            <Text style={styles.billName}>{bill.name}</Text>
+            <Text style={styles.billDescription} note numberOfLines={1}>
               {bill.participants.length} participants, {bill.numberOfExpenses}{" "}
               items
             </Text>
           </Body>
           <Right>
-            <Button
-              active
-              style={{ backgroundColor: "transparent", elevation: 0 }}
-              onPress={() => this.onBillRemove(bill)}
-            >
+            <TouchableOpacity onPress={() => this.onBillRemove(bill)}>
               <Icon
                 name="remove-circle"
                 style={{ color: Colors.grey }}
                 active
               />
-            </Button>
+            </TouchableOpacity>
           </Right>
         </ListItem>
       </TouchableOpacity>
     );
   };
-  renderFab = () => {
-    const { bills, navigation } = this.props;
+  createBill = () =>
+    this.props.navigation.navigate("CreateBill", { type: "simple" });
+    renderAddBillButton = () => {
     return (
-      <Fab
-        active
-        direction="up"
-        containerStyle={{}}
-        style={{ backgroundColor: Colors.main }}
-        position="bottomRight"
-        onPress={() => {
-          const buttons = [
-            { text: "Simple bill", icon: "md-person" },
-            { text: "Cancel", icon: "md-close" }
-          ];
-          ActionSheet.show(
-            {
-              options: buttons,
-              cancelButtonIndex: buttons.length - 1,
-              title: "Create bill"
-            },
-            buttonIndex => {
-              if (buttonIndex === 0) {
-                navigation.navigate("CreateBill", { type: "simple" });
-              }
-            }
-          );
+      <LinearGradient
+        colors={["transparent", "white", "white", "white"]}
+        style={{
+          height: 100,
+          width,
+          justifyContent: "center",
+          alignSelf: "stretch",
+          position: "absolute",
+          bottom: 0
         }}
       >
-        <Icon name="add" />
-      </Fab>
+        <RoundedButton onPress={this.createBill} text="Add bill" />
+      </LinearGradient>
     );
   };
   render() {
@@ -120,14 +105,17 @@ export class BillList extends React.Component {
       return (
         <>
           <EmptyListPlaceholder />
-          {this.renderFab()}
+          {this.renderAddBillButton()}
         </>
       );
     }
     return (
       <Container>
-        <List>{bills.map(this.renderListItem)}</List>
-        {this.renderFab()}
+        <ScrollView>
+          {bills.map(this.renderListItem)}
+          <View style={{ height: 100 }} />
+        </ScrollView>
+        {this.renderAddBillButton()}
       </Container>
     );
   }
@@ -137,7 +125,8 @@ const styles = StyleSheet.create({
     color: Colors.grey,
     fontSize: 20,
     textAlign: "center",
-    marginTop: 20
+    marginTop: 20,
+    fontFamily: "opensans"
   },
   placeholderContainer: {
     alignSelf: "stretch",
@@ -154,6 +143,12 @@ const styles = StyleSheet.create({
   stripe: {
     width: 4,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 10
+  },
+  billName: {
+    fontFamily: "opensans-bold"
+  },
+  billDescription: {
+    fontFamily: "opensans-light",
   }
 });

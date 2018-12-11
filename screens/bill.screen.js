@@ -7,6 +7,7 @@ import { Icon } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { BillState } from "../models/bill";
 import { store } from "../stores/main-store";
+import { getBaseNavigationConfig } from "../util/navigation.util";
 
 export const BillScreen = createMaterialTopTabNavigator(
   {
@@ -19,33 +20,14 @@ export const BillScreen = createMaterialTopTabNavigator(
     navigationOptions: ({ navigation }) => {
       const bill = store.currentBill;
       return {
-        title: bill ? bill.name : "Bill",
-        headerStyle: {
-          backgroundColor: bill.state === BillState.UNLOCKED ? Colors.main : Colors.lockedList
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold"
-        },
-        headerRight: (
+        ...getBaseNavigationConfig(bill ? bill.name : "Expenses"),
+
+        headerLeft: (
           <TouchableOpacity
-            round
-            style={{ marginRight: 10 }}
-            onPress={() => {
-              if (!bill || bill.state !== BillState.UNLOCKED) {
-                return;
-              }
-              bill.state = BillState.LOCKED;
-              navigation.navigate("Payments");
-              bill.calculatePayments();
-            }}
+            style={{ marginLeft: 10 }}
+            onPress={() => navigation.goBack()}
           >
-            <Icon
-              name={
-                bill && bill.state === BillState.UNLOCKED ? "unlock" : "lock"
-              }
-              style={{ color: "white" }}
-            />
+            <Icon name="arrow-back" style={{ color: Colors.main }} />
           </TouchableOpacity>
         )
       };
@@ -59,7 +41,10 @@ export const BillScreen = createMaterialTopTabNavigator(
         backgroundColor: Colors.background
       },
       inactiveTintColor: Colors.grey,
-      activeTintColor: "black"
+      activeTintColor: "black",
+      labelStyle: {
+        fontFamily: "karla-bold"
+      }
     }
   }
 );

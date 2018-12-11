@@ -1,18 +1,23 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
-import { Button, Icon, Text } from "native-base";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { Icon, Text } from "native-base";
 
 import { Colors } from "../config/theme.config";
-import { PaymentState } from "../models/payment";
+import {getBaseNavigationConfig} from '../util/navigation.util';
 
 export class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
+    ...getBaseNavigationConfig("Settings"),
     title: `Settings`,
-
-    headerStyle: {
-      backgroundColor: Colors.main
-    },
-    headerTintColor: "#fff"
+    headerTintColor: "#fff",
+    headerLeft: (
+        <TouchableOpacity
+          style={{ marginLeft: 10 }}
+          onPress={() => navigation.goBack()}
+        >
+          <Icon name="arrow-back" style={{ color: Colors.main }} />
+        </TouchableOpacity>
+      )
   });
 
   render() {

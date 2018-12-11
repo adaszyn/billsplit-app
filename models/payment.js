@@ -42,7 +42,9 @@ export class Payment {
     this.state = state;
     this.id = id;
   }
-
+  getQRPayload() {
+    return `B${this.payee.phoneNumber};${this.amount}`;
+  }
   qrUri() {
     return `https://image-proxy-lamswmfwgf.now.sh/?payee=${
       this.payee.phoneNumber

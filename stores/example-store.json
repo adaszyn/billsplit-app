@@ -22,7 +22,294 @@
         ],
         "billOwner": "100",
         "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
+      },
+      {
+        "id": "1",
+        "name": "Simple Bill",
+        "type": "simple",
+        "payments": [],
+        "participants": [
+          {
+            "id": "100",
+            "name": "Bob",
+            "phoneNumber": "+46 123 123 123",
+            "expenses": [{ "name": "Chips", "value": 50 }]
+          },
+          {
+            "id": "200",
+            "name": "Josh",
+            "phoneNumber": "+46 222 222 222",
+            "expenses": [{ "name": "Beers", "value": 100 }]
+          }
+        ],
+        "billOwner": "100",
+        "state": "UNLOCKED"
       }
+
     ]
   }
 }

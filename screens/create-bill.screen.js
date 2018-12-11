@@ -3,31 +3,50 @@ import {
   TextInput,
   StyleSheet,
   View,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableOpacity
 } from "react-native";
-import { Header } from 'react-navigation';
+import { Header } from "react-navigation";
 import { store } from "../stores/main-store";
 
-import { Text, Button, Container, Card, CardItem, Body } from "native-base";
+import {
+  Text,
+  Button,
+  Container,
+  Card,
+  CardItem,
+  Body,
+  Icon
+} from "native-base";
 import { Colors } from "../config/theme.config";
 import { Bill } from "../models/bill";
+import { getBaseNavigationConfig } from "../util/navigation.util";
+import { RoundedButton } from "../components/rounded-button";
+import { TextInputAnimatedPlaceholder } from "../components/text-input-animated";
 
+const PLACEHOLDERS = [
+  "Shopping with John...",
+  "Wednesday hangout...",
+  "Trip to Alaska..."
+];
+const getRandomPlaceholder = () => {
+  return PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)];
+};
 export class CreateBillScreen extends React.Component {
-  static navigationOptions = {
-    title: "New simple bill",
-    headerStyle: {
-      backgroundColor: Colors.main
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold"
-    }
-  };
+  static navigationOptions = ({ navigation }) => ({
+    ...getBaseNavigationConfig("New bill"),
+    headerLeft: (
+      <TouchableOpacity
+        style={{ marginLeft: 10 }}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="arrow-back" style={{ color: Colors.main }} />
+      </TouchableOpacity>
+    )
+  });
 
-  constructor(props) {
-    super(props);
-    this.state = { billName: "" };
-  }
+  state = { billName: "" };
+  placeholder = getRandomPlaceholder();
 
   onSubmit = () => {
     const { navigation } = this.props;
@@ -44,40 +63,48 @@ export class CreateBillScreen extends React.Component {
         behavior="padding"
       >
         <Container style={styles.container}>
-          <Card style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 15 }}>
             <CardItem style={{ flex: 1 }}>
               <Body>
-                <Text style={styles.label}>CREATE NEW SIMPLE BILL</Text>
-                <TextInput
-                  placeholder="Enter list name"
+                <Text style={styles.label}>What's your bill name?</Text>
+                <TextInputAnimatedPlaceholder
+                  placeholder={this.placeholder}
                   style={styles.input}
                   onChangeText={billName => this.setState({ billName })}
                   value={this.state.billName}
                 />
                 <View style={{ flexGrow: 1 }} />
-                <Button block onPress={this.onSubmit}>
-                  <Text>Save</Text>
-                </Button>
+                <RoundedButton
+                  style={{ alignSelf: "center" }}
+                  onPress={this.onSubmit}
+                  text="Save"
+                />
               </Body>
             </CardItem>
-          </Card>
+          </View>
         </Container>
       </KeyboardAvoidingView>
     );
   }
 }
 const styles = StyleSheet.create({
-  container: { padding: 15, backgroundColor: Colors.lightgrey },
+  container: { padding: 15 },
   label: {
     color: Colors.darkgrey,
     marginBottom: 15,
     fontWeight: "600",
-    fontSize: 13
+    textAlign: "center",
+    fontSize: 17,
+    fontFamily: "karla"
   },
   input: {
+    marginTop: 20,
+    textAlign: "center",
     alignSelf: "stretch",
     height: 40,
+    fontSize: 20,
     borderBottomWidth: 1,
-    borderColor: Colors.grey
+    borderColor: Colors.grey,
+    fontFamily: "karla"
   }
 });
