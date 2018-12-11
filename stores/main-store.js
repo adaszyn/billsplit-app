@@ -8,13 +8,16 @@ import { AsyncStorage } from "react-native";
 export class MainStore {
   @observable list = new List();
   @observable currentBill = null;
+  @observable userPhoneNumber = null;
   static fromJSON(store) {
     const instance = new MainStore();
     instance.list = List.fromJSON(store.list);
+    instance.userPhoneNumber = store.userPhoneNumber;
     return instance;
   }
   updateFromJSON(store) {
     this.list = List.fromJSON(store.list);
+    this.userPhoneNumber = store.userPhoneNumber
   }
 }
 export const preloadStoreFromStorage = async store => {

@@ -20,7 +20,7 @@ import {
 import { observer } from "mobx-react";
 import { store } from "../stores/main-store";
 import { BillState } from "../models/bill";
-import { RoundedButton } from "./rounded-button";
+import { RoundedButton, RoundedButtonThemes } from "./rounded-button";
 import { LinearGradient } from "expo";
 
 const { width } = Dimensions.get("window");
@@ -81,7 +81,9 @@ export class BillList extends React.Component {
   };
   createBill = () =>
     this.props.navigation.navigate("CreateBill", { type: "simple" });
-    renderAddBillButton = () => {
+  navigateToSettings = () => this.props.navigation.navigate("Settings");
+  renderAddBillButton = () => {
+    const canAddBill = !!store.userPhoneNumber;
     return (
       <LinearGradient
         colors={["transparent", "white", "white", "white"]}
@@ -94,7 +96,15 @@ export class BillList extends React.Component {
           bottom: 0
         }}
       >
-        <RoundedButton onPress={this.createBill} text="Add bill" />
+        {canAddBill ? (
+          <RoundedButton onPress={this.createBill} text="Add bill" />
+        ) : (
+          <RoundedButton
+            theme={RoundedButtonThemes.RED}
+            onPress={this.navigateToSettings}
+            text="Set phone number"
+          />
+        )}
       </LinearGradient>
     );
   };
@@ -149,6 +159,6 @@ const styles = StyleSheet.create({
     fontFamily: "opensans-bold"
   },
   billDescription: {
-    fontFamily: "opensans-light",
+    fontFamily: "opensans-light"
   }
 });

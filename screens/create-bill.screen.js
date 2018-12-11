@@ -65,7 +65,7 @@ export class CreateBillScreen extends React.Component {
         <Container style={styles.container}>
           <View style={{ flex: 1, padding: 15 }}>
             <CardItem style={{ flex: 1 }}>
-              <Body>
+              <Body style={{alignItems: 'center'}}>
                 <Text style={styles.label}>What's your bill name?</Text>
                 <TextInputAnimatedPlaceholder
                   placeholder={this.placeholder}
